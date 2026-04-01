@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finder</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+        -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+    }
+
+    :root {
+      --sidebar-bg: rgba(246, 246, 246, 0.92);
+      --main-bg: #ffffff;
+      --text: #333333;
+      --text-muted: #666666;
+      --header: #8e8e93;
+      --active-bg: #e5e5e5;
+      --selection-bg: rgba(0, 122, 255, 0.18);
+      --selection-border: rgba(0, 122, 255, 0.45);
+      --toolbar-border: rgba(0, 0, 0, 0.08);
+      --segment-bg: rgba(0, 0, 0, 0.05);
+      --segment-active: #ffffff;
+      --icon-stroke: #555555;
+      --icon-stroke-active: #333333;
+      --title-color: #222222;
+      --body-bg: #d1d1d1;
+      --hover-bg: rgba(0, 0, 0, 0.06);
+      --accent: #007aff;
+      --input-bg: rgba(0, 0, 0, 0.06);
+      --input-border: rgba(0, 0, 0, 0.12);
+      --shadow-window: 0 12px 32px rgba(0, 0, 0, 0.14), 0 0 1px rgba(0, 0, 0, 0.1);
+      --list-row-hover: rgba(0, 0, 0, 0.04);
+      --gallery-pane: rgba(0, 0, 0, 0.03);
+      --audio-paper: #f7f7f9;
+      --audio-paper-fold: #e7e8ec;
+      --audio-paper-stroke: #d5d7dd;
+      --audio-wave: #0a84ff;
+      --font: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+      --ease-spring: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    html[data-theme="dark"] {
+      --sidebar-bg: rgba(55, 55, 57, 0.92);
+      --main-bg: #1c1c1e;
+      --text: #ebebf5;
+      --text-muted: #aeaeb2;
+      --header: #8e8e93;
+      --active-bg: rgba(235, 235, 245, 0.14);
+      --selection-bg: rgba(255, 255, 255, 0.055);
+      --selection-border: rgba(255, 255, 255, 0.281);
+      --toolbar-border: rgba(255, 255, 255, 0.1);
+      --segment-bg: rgba(255, 255, 255, 0.08);
+      --segment-active: rgba(255, 255, 255, 0.14);
+      --icon-stroke: #aeaeb2;
+      --icon-stroke-active: #ebebf5;
+      --title-color: #ffffff;
+      --body-bg: #000000;
+      --hover-bg: rgba(255, 255, 255, 0.08);
+      --accent: #ffffff5d;
+      --input-bg: rgba(255, 255, 255, 0.08);
+      --input-border: rgba(255, 255, 255, 0.15);
+      --shadow-window: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.1);
+      --list-row-hover: rgba(255, 255, 255, 0.06);
+      --gallery-pane: rgba(255, 255, 255, 0.04);
+      --audio-paper: #f4f4f6;
+      --audio-paper-fold: #e0e1e6;
+      --audio-paper-stroke: #c9ccd3;
+      --audio-wave: #2997ff;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html[data-theme="system"] {
+        --sidebar-bg: rgba(55, 55, 57, 0.92);
+        --main-bg: #1c1c1e;
+        --text: #ebebf5;
+        --text-muted: #aeaeb2;
+        --header: #8e8e93;
+        --active-bg: rgba(235, 235, 245, 0.14);
+        --selection-bg: rgba(10, 132, 255, 0.28);
+        --selection-border: rgba(64, 156, 255, 0.65);
+        --toolbar-border: rgba(255, 255, 255, 0.1);
+        --segment-bg: rgba(255, 255, 255, 0.08);
+        --segment-active: rgba(255, 255, 255, 0.14);
+        --icon-stroke: #aeaeb2;
+        --icon-stroke-active: #ebebf5;
+        --title-color: #ffffff;
+        --body-bg: #000000;
+        --hover-bg: rgba(255, 255, 255, 0.08);
+        --accent: #0a84ff;
+        --input-bg: rgba(255, 255, 255, 0.08);
+        --input-border: rgba(255, 255, 255, 0.15);
+        --shadow-window: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 1px rgba(255, 255, 255, 0.1);
+        --list-row-hover: rgba(255, 255, 255, 0.06);
+        --gallery-pane: rgba(255, 255, 255, 0.04);
+        --audio-paper: #f4f4f6;
+        --audio-paper-fold: #e0e1e6;
+        --audio-paper-stroke: #c9ccd3;
+        --audio-wave: #2997ff;
+      }
+    }
+
+    @keyframes paneSlideForward {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes paneSlideBack {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes itemRise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes rowRise {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes colRowIn {
+      from { opacity: 0; transform: translateX(-6px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes galleryHeroIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes uiSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(-6px) scale(0.98); }
+    }
+
+    .content.anim-slide-forward .content-inner,
+    .content.anim-slide-forward .column-layout,
+    .content.anim-slide-forward .gallery-layout {
+      animation: paneSlideForward 0.2s var(--ease-out) both;
+    }
+
+    .content.anim-slide-back .content-inner,
+    .content.anim-slide-back .column-layout,
+    .content.anim-slide-back .gallery-layout {
+      animation: paneSlideBack 0.2s var(--ease-out) both;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--body-bg);
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      transition: background 0.2s ease;
+    }
+
+    .finder {
+      width: min(1120px, calc(100vw - 32px));
+      height: min(720px, calc(100vh - 64px));
+      background: var(--main-bg);
+      border-radius: 14px;
+      box-shadow: var(--shadow-window);
+      display: flex;
+      overflow: hidden;
+      transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+    }
+
+    .finder.is-zoomed {
+      width: calc(100vw - 24px);
+      height: calc(100vh - 24px);
+      border-radius: 10px;
+    }
+
+    .finder.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98) translateY(4px);
+      transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+    }
+
+    .sidebar {
+      width: 176px;
+      min-width: 176px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--toolbar-border);
+      display: flex;
+      flex-direction: column;
+      padding: 12px 10px 16px;
+    }
+
+    .traffic {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+      padding-left: 2px;
+    }
+
+    .traffic button {
+      width: 12px;
+      height: 12px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.12s var(--ease-out), filter 0.12s ease;
+    }
+    .traffic button:hover {
+      transform: scale(1.14);
+      filter: brightness(1.08);
+    }
+    .traffic .close { background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.12); }
+    .traffic .min { background: #febc2e; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
+    .traffic .zoom { background: #28c840; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
+
+    .nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      margin: 0 -4px;
+      padding: 0 4px;
+    }
+
+    .nav-section { margin-bottom: 14px; }
+    .nav-section h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--header);
+      padding: 4px 8px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      line-height: 1.25;
+      color: var(--text);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.15s ease;
+    }
+
+    .nav-item svg {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      stroke: var(--icon-stroke);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .nav-item:hover { background: var(--hover-bg); }
+    .nav-item.active { background: var(--active-bg); }
+    .nav-item.active svg { stroke: var(--icon-stroke-active); }
+
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: var(--main-bg);
+    }
+
+    .toolbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px 8px 12px;
+      border-bottom: 1px solid var(--toolbar-border);
+      min-height: 44px;
+      flex-wrap: wrap;
+    }
+
+    .tb-nav { display: flex; gap: 2px; }
+
+    .tb-icon-btn {
+      width: 28px;
+      height: 24px;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.12s var(--ease-out), background 0.15s ease, color 0.15s ease;
+    }
+    .tb-icon-btn:hover:not(:disabled) { background: var(--hover-bg); color: var(--text); }
+    .tb-icon-btn:disabled { opacity: 0.35; cursor: default; }
+    .tb-icon-btn.is-loading {
+      position: relative;
+      pointer-events: none;
+      color: transparent;
+    }
+    .tb-icon-btn.is-loading svg {
+      opacity: 0;
+    }
+    .tb-icon-btn.is-loading::after {
+      content: '';
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 2px solid rgba(127, 127, 127, 0.35);
+      border-top-color: var(--accent);
+      animation: uiSpin 0.7s linear infinite;
+    }
+
+    .tb-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: auto;
+      min-width: 0;
+      flex: 1;
+      max-width: min(280px, 40vw);
+    }
+
+    .tb-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--title-color);
+      padding-left: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.25s ease;
+    }
+
+    .search-field {
+      display: none;
+      flex: 1;
+      min-width: 120px;
+      max-width: 240px;
+      height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .search-field:focus { border-color: var(--accent); }
+    .search-field.visible {
+      display: block;
+      animation: paneSlideForward 0.18s var(--ease-out) both;
+    }
+
+    .segment {
+      display: flex;
+      background: var(--segment-bg);
+      border-radius: 6px;
+      padding: 2px;
+    }
+
+    .segment button {
+      width: 32px;
+      height: 26px;
+      border: none;
+      background: transparent;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: inherit;
+      transition: transform 0.12s var(--ease-out), color 0.15s ease, background 0.15s ease;
+    }
+    .segment button:hover:not(.on) { color: var(--text); }
+    .segment button.on {
+      background: var(--segment-active);
+      color: var(--accent);
+    }
+
+    .segment svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      stroke-width: 1.35;
+      fill: none;
+    }
+
+    .theme-toggle {
+      width: 30px;
+      height: 28px;
+    }
+
+    .tb-actions {
+      display: flex;
+      gap: 2px;
+      margin-left: 2px;
+    }
+
+    .tb-actions .tb-icon-btn {
+      width: 30px;
+      height: 28px;
+    }
+
+    .tb-icon-btn.is-pressed { background: var(--active-bg); color: var(--accent); }
+
+    .content {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .content-inner {
+      flex: 1;
+      overflow: auto;
+      padding: 20px 24px 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: 20px 16px;
+      justify-items: center;
+      align-content: start;
+    }
+
+    .content.view-list .content-inner { padding: 0; }
+    .content.view-list .grid { display: none; }
+
+    .list-wrap { display: none; width: 100%; }
+    .content.view-list .list-wrap { display: block; }
+
+    .list-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .list-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--header);
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--toolbar-border);
+      position: sticky;
+      top: 0;
+      background: var(--main-bg);
+      z-index: 1;
+    }
+    .list-table td {
+      padding: 6px 16px;
+      border-bottom: 1px solid var(--toolbar-border);
+      vertical-align: middle;
+      color: var(--text);
+    }
+    .list-table tr {
+      cursor: pointer;
+    }
+    .list-table tr.fx-stagger {
+      opacity: 0;
+      animation: rowRise 0.22s var(--ease-out) forwards;
+      animation-delay: calc(var(--stagger, 0) * 1ms);
+    }
+    .list-table tr:hover td { background: var(--list-row-hover); }
+    .list-table tr.selected td {
+      background: var(--selection-bg);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .list-name-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .list-mini-icon {
+      width: 28px;
+      height: 24px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .list-mini-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .list-mini-icon .folder-standard {
+      transform: scale(0.42);
+      transform-origin: bottom center;
+    }
+
+    .column-layout {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      flex-direction: row;
+    }
+    .content.view-column .column-layout { display: flex; }
+    .content.view-column .content-inner { display: none; }
+
+    .col-pane {
+      flex: 0 0 200px;
+      border-right: 1px solid var(--toolbar-border);
+      overflow-y: auto;
+      background: var(--main-bg);
+    }
+    .col-pane:last-child {
+      flex: 1;
+      border-right: none;
+      background: var(--gallery-pane);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .col-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .col-row.fx-stagger {
+      opacity: 0;
+      animation: colRowIn 0.22s var(--ease-out) forwards;
+      animation-delay: calc(var(--stagger, 0) * 1ms);
+    }
+    .col-row:hover { background: var(--list-row-hover); }
+    .col-row.selected { background: var(--selection-bg); }
+    .col-preview-img {
+      max-width: 100%;
+      max-height: min(400px, 60vh);
+      border-radius: 10px;
+      animation: galleryHeroIn 0.24s var(--ease-out) both;
+    }
+    .col-preview-placeholder {
+      color: var(--text-muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .gallery-layout {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .content.view-gallery .gallery-layout { display: flex; }
+    .content.view-gallery .content-inner { display: none; }
+
+    .gallery-hero {
+      flex: 1;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: var(--gallery-pane);
+    }
+    .gallery-hero img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      transition: transform 0.22s var(--ease-out), opacity 0.22s ease;
+    }
+    .gallery-hero.fx-hero-pop img {
+      animation: galleryHeroIn 0.24s var(--ease-out) both;
+    }
+    .gallery-strip {
+      flex-shrink: 0;
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      border-top: 1px solid var(--toolbar-border);
+      background: var(--main-bg);
+    }
+    .gallery-tile {
+      flex: 0 0 auto;
+      width: 88px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.12s var(--ease-out);
+    }
+    .gallery-tile:hover {
+      transform: translateY(-3px);
+    }
+    .gallery-tile.fx-stagger {
+      opacity: 0;
+      animation: itemRise 0.24s var(--ease-out) forwards;
+      animation-delay: calc(var(--stagger, 0) * 1ms);
+    }
+    .gallery-tile.selected .g-thumb {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .g-thumb {
+      width: 88px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--hover-bg);
+    }
+    .gallery-tile span {
+      display: block;
+      font-size: 11px;
+      margin-top: 6px;
+      color: var(--text);
+      max-width: 88px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .item {
+      width: 100%;
+      max-width: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      padding: 6px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: transform 0.12s var(--ease-out);
+    }
+    .item:hover {
+      transform: translateY(-2px);
+    }
+    .item:focus { outline: none; }
+    .item.selected {
+      background: var(--selection-bg);
+    }
+    .item.selected:hover {
+      transform: translateY(-2px);
+    }
+
+    .item.fx-stagger {
+      opacity: 0;
+      animation: itemRise 0.26s var(--ease-out) forwards;
+      animation-delay: calc(var(--stagger, 0) * 1ms);
+    }
+
+    .item-thumb {
+      width: 88px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      transition: transform 0.12s var(--ease-out);
+    }
+    .item:hover .item-thumb {
+      transform: scale(1.04);
+    }
+
+    .item-audio {
+      width: 88px;
+      height: 72px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 1px;
+      pointer-events: none;
+      transition: transform 0.12s var(--ease-out);
+    }
+    .item:hover .item-audio {
+      transform: scale(1.04);
+    }
+
+    .list-audio-icon {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .audio-file-svg {
+      display: block;
+    }
+    .audio-file-svg--large {
+      width: 52px;
+      height: 60px;
+    }
+    .audio-file-svg--small {
+      width: 17px;
+      height: 20px;
+    }
+    .audio-file-paper {
+      fill: var(--audio-paper);
+    }
+    .audio-file-fold {
+      fill: var(--audio-paper-fold);
+    }
+    .audio-file-outline {
+      fill: none;
+      stroke: var(--audio-paper-stroke);
+      stroke-width: 1;
+    }
+    .audio-file-wave {
+      
+      fill: var(--audio-wave);
+      stroke: none;
+    }
+
+    .folder-wrap {
+      width: 88px;
+      height: 72px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 2px;
+      pointer-events: none;
+    }
+
+    .folder-standard {
+      width: 76px;
+      height: 58px;
+      position: relative;
+      transition: transform 0.12s var(--ease-out);
+    }
+    .item:hover .folder-standard {
+      transform: translateY(-2px) scale(1.04);
+    }
+
+    .folder-standard .tab {
+      position: absolute;
+      top: 0;
+      left: 4px;
+      width: 28px;
+      height: 10px;
+      background: #6ea9dc;
+      border-radius: 4px 6px 0 0;
+    }
+    .folder-standard .body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      background: #4d8ccf;
+      border-radius: 6px 8px 8px 8px;
+    }
+
+    .folder-receipts .tab {
+      background: #4f73a7;
+    }
+    .folder-receipts .body {
+      background: #395f93;
+    }
+
+    .folder-receipts .plane {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      z-index: 2;
+    }
+    .folder-receipts .plane svg {
+      width: 100%;
+      height: 100%;
+      fill: #ffffff;
+      opacity: 0.95;
+    }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 100%;
+      pointer-events: none;
+    }
+
+    .tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .item-label {
+      font-size: 12px;
+      line-height: 1.3;
+      color: var(--title-color);
+      word-break: break-word;
+      max-width: 100%;
+      pointer-events: none;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 40px;
+      cursor: zoom-out;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.32s var(--ease-out), visibility 0.32s;
+    }
+    .lightbox.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+      pointer-events: none;
+      transform: scale(0.98) translateY(6px);
+      opacity: 0;
+      transition: transform 0.22s var(--ease-out), opacity 0.22s var(--ease-out);
+    }
+    .lightbox.open img {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .audio-box {
+      width: min(560px, 90vw);
+      padding: 16px;
+      border-radius: 10px;
+      background: var(--main-bg);
+      border: 1px solid var(--toolbar-border);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: auto;
+    }
+    .audio-box p {
+      font-size: 13px;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .audio-box audio {
+      width: 100%;
+    }
+
+    .app-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 1400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(2px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s var(--ease-out), visibility 0.2s ease;
+    }
+    .app-loading.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .app-loading-card {
+      min-width: 220px;
+      max-width: min(360px, 90vw);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--toolbar-border);
+      background: var(--main-bg);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+    .app-loading-spinner {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(127, 127, 127, 0.32);
+      border-top-color: var(--accent);
+      flex-shrink: 0;
+      animation: uiSpin 0.75s linear infinite;
+    }
+    .app-loading-text {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .toast-stack {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1500;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: min(360px, calc(100vw - 24px));
+      pointer-events: none;
+    }
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      border-radius: 10px;
+      border: 1px solid var(--toolbar-border);
+      background: var(--main-bg);
+      color: var(--text);
+      padding: 10px 11px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      pointer-events: auto;
+      animation: toastIn 0.18s var(--ease-out) both;
+    }
+    .toast.is-leaving {
+      animation: toastOut 0.16s var(--ease-out) both;
+    }
+    .toast-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 4px;
+      flex-shrink: 0;
+      background: var(--accent);
+    }
+    .toast-text {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--text);
+      word-break: break-word;
+      flex: 1;
+    }
+    .toast-close {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      line-height: 1;
+      font-size: 14px;
+      margin-top: -1px;
+      flex-shrink: 0;
+    }
+    .toast-close:hover {
+      background: var(--hover-bg);
+      color: var(--text);
+    }
+    .toast-info .toast-dot { background: #0a84ff; }
+    .toast-success .toast-dot { background: #2fb344; }
+    .toast-warning .toast-dot { background: #f59f00; }
+    .toast-error .toast-dot { background: #e03131; }
+
+    .sr-hint {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .content.anim-slide-forward .content-inner,
+      .content.anim-slide-forward .column-layout,
+      .content.anim-slide-forward .gallery-layout,
+      .content.anim-slide-back .content-inner,
+      .content.anim-slide-back .column-layout,
+      .content.anim-slide-back .gallery-layout,
+      .search-field.visible {
+        animation: none !important;
+      }
+      .item.fx-stagger,
+      .list-table tr.fx-stagger,
+      .col-row.fx-stagger,
+      .gallery-tile.fx-stagger {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+      .col-preview-img,
+      .gallery-hero.fx-hero-pop img {
+        animation: none !important;
+      }
+      .lightbox,
+      .lightbox img {
+        transition-duration: 0.05s !important;
+      }
+      .app-loading,
+      .toast {
+        transition-duration: 0.05s !important;
+        animation-duration: 0.05s !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="finder" id="finder" role="application" aria-label="Finder window">
+    <aside class="sidebar">
+      <div class="traffic">
+        <button type="button" class="close" id="btnClose" aria-label="Close window"></button>
+        <button type="button" class="min" id="btnMin" aria-label="Minimize window"></button>
+        <button type="button" class="zoom" id="btnZoom" aria-label="Zoom window"></button>
+      </div>
+      <nav class="nav-scroll" id="sidebarNav"></nav>
+    </aside>
+
+    <div class="main">
+      <header class="toolbar">
+        <div class="tb-nav">
+          <button type="button" class="tb-icon-btn" id="btnBack" aria-label="Back" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <button type="button" class="tb-icon-btn" id="btnForward" aria-label="Forward" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <div class="tb-title-wrap">
+          <h1 class="tb-title" id="tbTitle">iCloud Drive</h1>
+          <input type="search" class="search-field" id="searchField" placeholder="Search..." aria-label="Filter items" autocomplete="off" />
+        </div>
+
+        <div class="tb-actions">
+          <button type="button" class="tb-icon-btn" id="btnUploadSongs" aria-label="Upload songs" title="Upload songs">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 4v10M8 8l4-4 4 4"/><rect x="4" y="14" width="16" height="6" rx="2"/></svg>
+          </button>
+          <button type="button" class="tb-icon-btn" id="btnDeleteSong" aria-label="Delete selected song" title="Select a song to delete" disabled>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><rect x="6" y="6" width="12" height="14" rx="2"/><path d="M10 11v5M14 11v5"/></svg>
+          </button>
+          <button type="button" class="tb-icon-btn" id="btnSearch" aria-label="Search" aria-pressed="false">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="content view-icon" id="content">
+        <div class="content-inner">
+          <div class="grid" id="grid"></div>
+          <div class="list-wrap">
+            <table class="list-table" id="listTable" aria-label="File list">
+              <thead><tr><th>Name</th><th>Kind</th><th>Size</th></tr></thead>
+              <tbody id="listBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="column-layout" id="columnLayout">
+          <div class="col-pane" id="colList"></div>
+          <div class="col-pane" id="colPreview"></div>
+        </div>
+        <div class="gallery-layout" id="galleryLayout">
+          <div class="gallery-hero" id="galleryHero">
+            <div class="col-preview-placeholder" id="galleryHeroPlaceholder">Select a photo</div>
+            <img id="galleryHeroImg" alt="" style="display:none" />
+          </div>
+          <div class="gallery-strip" id="galleryStrip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="songUploadInput" accept="audio/*" multiple style="display:none" />
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Preview">
+    <img id="lightboxImg" alt="" />
+    <div class="audio-box" id="audioBox">
+      <p id="audioTitle"></p>
+      <audio id="audioPlayer" controls preload="metadata"></audio>
+    </div>
+  </div>
+
+  <div class="app-loading" id="appLoading" aria-hidden="true" aria-live="polite">
+    <div class="app-loading-card" role="status" aria-label="Loading">
+      <span class="app-loading-spinner" aria-hidden="true"></span>
+      <p class="app-loading-text" id="appLoadingText">Loading...</p>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+
+  <script>
+    window.SUPABASE_URL = window.SUPABASE_URL || 'https://xvjdwlxihpzrwjrjubbx.supabase.co';
+    window.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'sb_publishable_PXAWIr_P97nAQY133-0kNw_EexR41AC';
+    window.SUPABASE_SONG_TABLE = window.SUPABASE_SONG_TABLE || 'songs';
+    window.SUPABASE_SONG_BUCKET = window.SUPABASE_SONG_BUCKET || 'songs';
+    window.SONG_ACTION_PASSWORD = window.SONG_ACTION_PASSWORD || '1234';
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+(function () {
+  const STORAGE_THEME = 'finder-theme';
+  const SUPABASE_URL = window.SUPABASE_URL || '';
+  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || '';
+  const SUPABASE_SONG_TABLE = window.SUPABASE_SONG_TABLE || 'songs';
+  const SUPABASE_SONG_BUCKET = window.SUPABASE_SONG_BUCKET || 'songs';
+  const SUPABASE_SIGNED_URL_TTL_SECONDS = 60 * 60;
+  const SONGS_SYNC_POLL_MS = 4000;
+  const SONG_ACTION_PASSWORD = window.SONG_ACTION_PASSWORD || '';
+
+  const safeStorage = {
+    get(k) {
+      try {
+        return localStorage.getItem(k);
+      } catch (e) {
+        return null;
+      }
+    },
+    set(k, v) {
+      try {
+        localStorage.setItem(k, v);
+      } catch (e) {
+        /* private mode / blocked */
+      }
+    },
+  };
+
+  const NODES = {
+    icloud: {
+      title: 'iCloud Drive',
+      parent: null,
+      sidebarKey: 'icloud',
+      entries: [
+        { type: 'folder', name: 'Desktop', node: 'folder-desktop', variant: 'standard' },
+        { type: 'folder', name: 'Documents', node: 'folder-documents', variant: 'standard' },
+        { type: 'folder', name: 'Receipts', node: 'folder-receipts', variant: 'receipts', tag: true },
+        { type: 'image', name: 'BeverlyHills.jpeg', seed: 'beverly' },
+        { type: 'image', name: 'Brunch.jpeg', seed: 'brunch' },
+        { type: 'image', name: 'Isolate.jpeg', seed: 'isolate' },
+        { type: 'image', name: 'JuneLake.jpeg', seed: 'junelake' },
+        { type: 'image', name: 'KidsLondon.jpeg', seed: 'kidslondon' },
+        { type: 'image', name: 'LosAngeles.jpeg', seed: 'losangeles' },
+        { type: 'image', name: 'Malibu.jpeg', seed: 'malibu' },
+        { type: 'image', name: 'Mammoth.jpeg', seed: 'mammoth' },
+        { type: 'image', name: 'Pipeline-Mammoth.jpeg', seed: 'pipeline' },
+        { type: 'image', name: 'Purple.jpeg', seed: 'purple' },
+      ],
+    },
+    'folder-desktop': {
+      title: 'Desktop',
+      parent: 'icloud',
+      sidebarKey: 'fav-desktop',
+      entries: [
+        { type: 'image', name: 'Wallpaper.jpeg', seed: 'wallpaper' },
+        { type: 'folder', name: 'Screenshots', node: 'folder-shots', variant: 'standard' },
+      ],
+    },
+    'folder-documents': {
+      title: 'Documents',
+      parent: 'icloud',
+      sidebarKey: 'fav-documents',
+      entries: [
+        { type: 'image', name: 'Scan.pdf', seed: 'scan', fakeExt: 'PDF document' },
+        { type: 'image', name: 'Notes.txt', seed: 'notes', fakeExt: 'Plain text' },
+      ],
+    },
+    'folder-receipts': {
+      title: 'Receipts',
+      parent: 'icloud',
+      sidebarKey: null,
+      entries: [
+        { type: 'image', name: 'Flight.pdf', seed: 'flight' },
+        { type: 'image', name: 'Hotel.pdf', seed: 'hotel' },
+      ],
+    },
+    'folder-shots': {
+      title: 'Screenshots',
+      parent: 'folder-desktop',
+      sidebarKey: null,
+      entries: [
+        { type: 'image', name: 'Screen-01.png', seed: 'shot1' },
+        { type: 'image', name: 'Screen-02.png', seed: 'shot2' },
+      ],
+    },
+    recents: {
+      title: 'Recents',
+      parent: null,
+      sidebarKey: 'recents',
+      entries: [
+        { type: 'image', name: 'BeverlyHills.jpeg', seed: 'beverly' },
+        { type: 'image', name: 'Brunch.jpeg', seed: 'brunch' },
+        { type: 'folder', name: 'Desktop', node: 'folder-desktop', variant: 'standard' },
+      ],
+    },
+    shared: {
+      title: 'Shared',
+      parent: null,
+      sidebarKey: 'shared',
+      entries: [
+        { type: 'folder', name: 'Team Photos', node: 'folder-team', variant: 'standard' },
+      ],
+    },
+    applications: {
+      title: 'Applications',
+      parent: null,
+      sidebarKey: 'apps',
+      entries: [
+        { type: 'image', name: 'Readme.txt', seed: 'readme', fakeExt: 'Plain text' },
+      ],
+    },
+    songs: {
+      title: 'Songs',
+      parent: null,
+      sidebarKey: 'Songs',
+      entries: [],
+    },
+    images: {
+      title: 'Images',
+      parent: null,
+      sidebarKey: 'Images',
+      entries: [
+        { type: 'folder', name: 'Desktop', node: 'folder-desktop', variant: 'standard' },
+        { type: 'image', name: 'avatar.jpg', seed: 'avatar' },
+      ],
+    },
+    hd: {
+      title: 'Macintosh HD',
+      parent: null,
+      sidebarKey: 'hd',
+      entries: [
+        { type: 'folder', name: 'System', node: 'folder-system', variant: 'standard' },
+        { type: 'folder', name: 'Users', node: 'folder-users', variant: 'standard' },
+      ],
+    },
+    'folder-system': {
+      title: 'System',
+      parent: 'hd',
+      sidebarKey: null,
+      entries: [],
+    },
+    'folder-users': {
+      title: 'Users',
+      parent: 'hd',
+      sidebarKey: null,
+      entries: [{ type: 'folder', name: 'dannyrico1', node: 'home', variant: 'standard' }],
+    },
+    'folder-team': {
+      title: 'Team Photos',
+      parent: 'shared',
+      sidebarKey: null,
+      entries: [{ type: 'image', name: 'Offsite.jpeg', seed: 'team' }],
+    },
+    testvol: {
+      title: 'Test',
+      parent: null,
+      sidebarKey: 'test',
+      entries: [{ type: 'image', name: 'sample.txt', seed: 'sample', fakeExt: 'Plain text' }],
+    },
+  };
+
+  const SIDEBAR_HTML = `
+    <div class="nav-section">
+      <button type="button" class="nav-item" data-node="recents">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Recents
+      </button>
+      <button type="button" class="nav-item" data-node="shared">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M6 19v-1a6 6 0 0 1 12 0v1"/></svg>
+        Shared
+      </button>
+    </div>
+    <div class="nav-section">
+      <h2>Locations</h2>
+      <button type="button" class="nav-item active" data-node="songs">
+        <svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1 0-8h.5a5 5 0 0 1 9.7 1.2A3.5 3.5 0 0 1 20 15.5 3.5 3.5 0 0 1 16.5 19H7z"/></svg>
+        Songs
+      </button>
+      <button type="button" class="nav-item" data-node="images">
+        <svg viewBox="0 0 24 24"><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-6v-7H10v7H4a1 1 0 0 1-1-1v-9.5z"/></svg>
+        Images
+      </button>
+    </div>
+  `;
+
+  const state = {
+    nodeId: 'songs',
+    history: ['songs'],
+    historyIndex: 0,
+    selection: null,
+    view: 'icon',
+    searchOpen: false,
+    searchQuery: '',
+    contentSlide: null,
+  };
+
+  const $ = (sel) => document.querySelector(sel);
+  const finder = $('#finder');
+  const grid = $('#grid');
+  const listBody = $('#listBody');
+  const colList = $('#colList');
+  const colPreview = $('#colPreview');
+  const galleryStrip = $('#galleryStrip');
+  const galleryHeroImg = $('#galleryHeroImg');
+  const galleryHeroPlaceholder = $('#galleryHeroPlaceholder');
+  const galleryHero = $('#galleryHero');
+  const contentEl = $('#content');
+  const tbTitle = $('#tbTitle');
+  const btnBack = $('#btnBack');
+  const btnForward = $('#btnForward');
+  const lightbox = $('#lightbox');
+  const lightboxImg = $('#lightboxImg');
+  const audioBox = $('#audioBox');
+  const audioTitle = $('#audioTitle');
+  const audioPlayer = $('#audioPlayer');
+  const songUploadInput = $('#songUploadInput');
+  const btnUploadSongs = $('#btnUploadSongs');
+  const btnDeleteSong = $('#btnDeleteSong');
+  const searchField = $('#searchField');
+  const appLoading = $('#appLoading');
+  const appLoadingText = $('#appLoadingText');
+  const toastStack = $('#toastStack');
+  const htmlEl = document.documentElement;
+
+  if (
+    !finder ||
+    !grid ||
+    !listBody ||
+    !contentEl ||
+    !btnBack ||
+    !btnForward ||
+    !tbTitle ||
+    !searchField ||
+    !songUploadInput ||
+    !btnUploadSongs ||
+    !btnDeleteSong ||
+    !audioBox ||
+    !audioTitle ||
+    !audioPlayer ||
+    !appLoading ||
+    !appLoadingText ||
+    !toastStack ||
+    !lightbox ||
+    !lightboxImg ||
+    !document.getElementById('sidebarNav')
+  ) {
+    document.body.insertAdjacentHTML(
+      'beforeend',
+      '<p style="padding:24px;font-family:system-ui,sans-serif">This page did not load correctly (missing #finder layout). Save the file as complete HTML and open it again.</p>'
+    );
+    return;
+  }
+
+  var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var supabaseClient = null;
+  var supabaseInitError = '';
+  var appLoadingDepth = 0;
+  var toastCounter = 0;
+  var songsRefreshInFlight = false;
+  var songsRefreshPending = false;
+  var songsSyncIntervalId = null;
+  var songsRealtimeChannel = null;
+
+  (function syncMotionPref() {
+    var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function sync() {
+      motionOK = !mqReduce.matches;
+    }
+    if (mqReduce.addEventListener) mqReduce.addEventListener('change', sync);
+    else if (mqReduce.addListener) mqReduce.addListener(sync);
+  })();
+
+  function messageFromError(err, fallback) {
+    if (err && typeof err.message === 'string' && err.message.trim()) {
+      return err.message.trim();
+    }
+    return fallback;
+  }
+
+  function setUploadButtonLoading(isLoading) {
+    var active = Boolean(isLoading);
+    btnUploadSongs.classList.toggle('is-loading', active);
+    btnUploadSongs.disabled = active;
+    if (active) btnUploadSongs.title = 'Working...';
+  }
+
+  function setDeleteButtonLoading(isLoading) {
+    var active = Boolean(isLoading);
+    btnDeleteSong.classList.toggle('is-loading', active);
+    btnDeleteSong.disabled = active;
+    if (active) btnDeleteSong.title = 'Working...';
+  }
+
+  function getSelectedSongEntry() {
+    if (state.nodeId !== 'songs' || state.selection == null) return null;
+    var entries = getEntries();
+    var entry = entries[state.selection];
+    if (!entry || entry.type !== 'audio') return null;
+    return entry;
+  }
+
+  function removeSongFromSongsNode(songId) {
+    if (!songId) return 0;
+    var before = NODES.songs.entries.length;
+    NODES.songs.entries = NODES.songs.entries.filter(function (entry) {
+      return entry.songId !== songId;
+    });
+    return before - NODES.songs.entries.length;
+  }
+
+  function requireActionPassword(actionLabel) {
+    var label = actionLabel || 'continue';
+    var provided = window.prompt('Enter password to ' + label + ':');
+    if (provided == null) {
+      notify('info', 'Action canceled.');
+      return false;
+    }
+    if (!SONG_ACTION_PASSWORD || provided !== SONG_ACTION_PASSWORD) {
+      notify('error', 'Incorrect password.', 4200);
+      return false;
+    }
+    return true;
+  }
+
+  function setAppLoading(isLoading, message) {
+    if (isLoading) {
+      appLoadingDepth++;
+      if (message) appLoadingText.textContent = message;
+      appLoading.classList.add('open');
+      appLoading.setAttribute('aria-hidden', 'false');
+      return;
+    }
+
+    appLoadingDepth = Math.max(0, appLoadingDepth - 1);
+    if (appLoadingDepth > 0) return;
+    appLoading.classList.remove('open');
+    appLoading.setAttribute('aria-hidden', 'true');
+    appLoadingText.textContent = 'Loading...';
+  }
+
+  function dismissToast(toastEl) {
+    if (!toastEl || toastEl.classList.contains('is-leaving')) return;
+    toastEl.classList.add('is-leaving');
+    window.setTimeout(function () {
+      if (toastEl.parentNode) toastEl.parentNode.removeChild(toastEl);
+    }, 180);
+  }
+
+  function notify(type, message, timeoutMs) {
+    if (!message) return;
+    var kind = /^(info|success|warning|error)$/.test(type) ? type : 'info';
+    var toast = document.createElement('div');
+    toast.className = 'toast toast-' + kind;
+    toast.id = 'toast-' + ++toastCounter;
+    toast.setAttribute('role', kind === 'error' ? 'alert' : 'status');
+
+    var dot = document.createElement('span');
+    dot.className = 'toast-dot';
+    dot.setAttribute('aria-hidden', 'true');
+
+    var text = document.createElement('p');
+    text.className = 'toast-text';
+    text.textContent = message;
+
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'toast-close';
+    close.setAttribute('aria-label', 'Dismiss notification');
+    close.textContent = 'x';
+
+    toast.appendChild(dot);
+    toast.appendChild(text);
+    toast.appendChild(close);
+    toastStack.appendChild(toast);
+
+    if (toastStack.children.length > 4) {
+      dismissToast(toastStack.firstElementChild);
+    }
+
+    var ttl = typeof timeoutMs === 'number' ? timeoutMs : kind === 'error' ? 5600 : 3400;
+    var timer = window.setTimeout(function () {
+      dismissToast(toast);
+    }, ttl);
+
+    close.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      window.clearTimeout(timer);
+      dismissToast(toast);
+    });
+  }
+
+  function thumbUrl(seed) {
+    return 'https://picsum.photos/seed/' + encodeURIComponent(seed) + '/176/144';
+  }
+  function thumbUrlLarge(seed) {
+    return 'https://picsum.photos/seed/' + encodeURIComponent(seed) + '/800/600';
+  }
+
+  function hasSupabaseConfig() {
+    return Boolean(
+      SUPABASE_URL &&
+        SUPABASE_ANON_KEY &&
+        SUPABASE_URL.indexOf('YOUR-PROJECT') === -1 &&
+        SUPABASE_ANON_KEY.indexOf('YOUR-ANON-KEY') === -1
+    );
+  }
+
+  function getSupabaseClient() {
+    if (!supabaseClient && !initSupabaseClient()) {
+      throw new Error(supabaseInitError || 'Supabase is not configured.');
+    }
+    return supabaseClient;
+  }
+
+  function initSupabaseClient() {
+    supabaseInitError = '';
+    if (supabaseClient) {
+      if (!songsRealtimeChannel && !songsSyncIntervalId) {
+        setupSongsRealtimeSync();
+      }
+      return true;
+    }
+    if (!hasSupabaseConfig()) {
+      supabaseInitError = 'Supabase URL/key not configured.';
+      return false;
+    }
+    if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+      console.warn('Supabase SDK was not loaded.');
+      supabaseInitError = 'Supabase SDK did not load (CDN blocked or offline).';
+      return false;
+    }
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      setupSongsRealtimeSync();
+      return true;
+    } catch (e) {
+      console.warn('Could not initialize Supabase client:', e);
+      supabaseInitError = e && e.message ? e.message : 'Could not initialize Supabase client.';
+      supabaseClient = null;
+      return false;
+    }
+  }
+  initSupabaseClient();
+
+  function sanitizeSongName(name) {
+    var sanitized = String(name || 'song')
+      .replace(/[^a-z0-9._-]+/gi, '-')
+      .replace(/^-+|-+$/g, '')
+      .toLowerCase();
+    return sanitized || 'song';
+  }
+
+  function createSongId() {
+    if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.floor(Math.random() * 16);
+      var v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  function buildSongStoragePath(songId, fileName) {
+    return 'songs/' + songId + '-' + sanitizeSongName(fileName);
+  }
+
+  function isAudioName(name) {
+    return /\.(mp3|wav|flac|aac|m4a|ogg|oga|opus|wma|aif|aiff)$/i.test(String(name || ''));
+  }
+
+  function fileNameFromStoragePath(path) {
+    var value = String(path || '');
+    var parts = value.split('/');
+    return parts.length ? parts[parts.length - 1] : value;
+  }
+
+  function isLikelyStorageFolder(item) {
+    if (!item || typeof item !== 'object') return false;
+    if (item.id == null) return true;
+    if (!item.metadata && !item.created_at && !item.updated_at) return true;
+    return false;
+  }
+
+  function storagePathFromListItem(prefix, itemName) {
+    var cleanPrefix = String(prefix || '').replace(/^\/+|\/+$/g, '');
+    var cleanName = String(itemName || '').replace(/^\/+|\/+$/g, '');
+    if (!cleanPrefix) return cleanName;
+    if (!cleanName) return cleanPrefix;
+    return cleanPrefix + '/' + cleanName;
+  }
+
+  function storageItemToSongRecord(prefix, item) {
+    if (!item || isLikelyStorageFolder(item)) return null;
+    var storagePath = storagePathFromListItem(prefix, item.name);
+    if (!storagePath || !isAudioName(storagePath)) return null;
+    var meta = item.metadata || {};
+    var size = Number(meta.size || meta.fileSize || 0);
+    if (!Number.isFinite(size) || size < 0) size = 0;
+    return {
+      id: 'storage:' + storagePath,
+      name: fileNameFromStoragePath(storagePath),
+      mime: String(meta.mimetype || meta.contentType || ''),
+      size: size,
+      storage_path: storagePath,
+      added_at: item.updated_at || item.created_at || null,
+    };
+  }
+
+  async function listStoragePath(prefix) {
+    var client = getSupabaseClient();
+    var rows = [];
+    var offset = 0;
+    while (true) {
+      var result = await client.storage
+        .from(SUPABASE_SONG_BUCKET)
+        .list(prefix || '', { limit: 100, offset: offset, sortBy: { column: 'name', order: 'asc' } });
+      if (result.error) throw result.error;
+      var page = Array.isArray(result.data) ? result.data : [];
+      rows = rows.concat(page);
+      if (page.length < 100) break;
+      offset += page.length;
+    }
+    return rows;
+  }
+
+  async function readAllSongStorageRecords() {
+    var prefixes = ['', 'songs'];
+    var pathMap = new Map();
+    var hadSuccess = false;
+    var firstError = null;
+    var queue = prefixes.slice();
+    var seenPrefixes = new Set(queue);
+    while (queue.length) {
+      var prefix = queue.shift();
+      var items;
+      try {
+        items = await listStoragePath(prefix);
+        hadSuccess = true;
+      } catch (e) {
+        if (!firstError) firstError = e;
+        continue;
+      }
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        if (isLikelyStorageFolder(item)) {
+          var childPrefix = storagePathFromListItem(prefix, item && item.name);
+          if (childPrefix && !seenPrefixes.has(childPrefix)) {
+            seenPrefixes.add(childPrefix);
+            queue.push(childPrefix);
+          }
+          continue;
+        }
+
+        var record = storageItemToSongRecord(prefix, item);
+        if (record && !pathMap.has(record.storage_path)) {
+          pathMap.set(record.storage_path, record);
+        }
+      }
+    }
+    if (!hadSuccess && firstError) throw firstError;
+    return Array.from(pathMap.values());
+  }
+
+  function mergeSongSources(tableRecords, storageRecords) {
+    var byPath = new Map();
+    for (var i = 0; i < (tableRecords || []).length; i++) {
+      var row = tableRecords[i];
+      if (row && row.storage_path) byPath.set(row.storage_path, row);
+    }
+
+    var merged = [];
+    for (var j = 0; j < (storageRecords || []).length; j++) {
+      var storage = storageRecords[j];
+      if (!storage || !storage.storage_path) continue;
+      var table = byPath.get(storage.storage_path);
+      merged.push({
+        id: (table && table.id) || storage.id || 'storage:' + storage.storage_path,
+        name: (table && table.name) || storage.name || fileNameFromStoragePath(storage.storage_path),
+        mime: (table && table.mime) || storage.mime || 'audio/*',
+        size: typeof (table && table.size) === 'number' ? table.size : storage.size || 0,
+        storage_path: storage.storage_path,
+        added_at: (table && table.added_at) || storage.added_at || null,
+      });
+    }
+
+    merged.sort(function (a, b) {
+      var ta = Date.parse(a.added_at || '');
+      var tb = Date.parse(b.added_at || '');
+      if (!Number.isFinite(ta)) ta = 0;
+      if (!Number.isFinite(tb)) tb = 0;
+      return tb - ta;
+    });
+
+    return merged;
+  }
+
+  function formatSizeFromBytes(bytes) {
+    if (typeof bytes !== 'number' || Number.isNaN(bytes) || bytes < 0) return '--';
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    return (bytes / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+  }
+
+  function recordToSongEntry(record) {
+    return {
+      type: 'audio',
+      name: record.name,
+      songId: record.id || 'storage:' + record.storage_path,
+      songPath: record.storage_path,
+      sizeBytes: record.size,
+      fakeExt: 'Audio file',
+    };
+  }
+
+  async function readAllSongRecords() {
+    var client = getSupabaseClient();
+    var result = await client
+      .from(SUPABASE_SONG_TABLE)
+      .select('id,name,mime,size,storage_path,added_at')
+      .order('added_at', { ascending: false });
+    if (result.error) throw result.error;
+    return result.data || [];
+  }
+
+  async function saveSongRecord(record, file) {
+    var client = getSupabaseClient();
+    var uploadRes = await client.storage
+      .from(SUPABASE_SONG_BUCKET)
+      .upload(record.storage_path, file, {
+        upsert: false,
+        contentType: record.mime || 'audio/*',
+      });
+    if (uploadRes.error) throw uploadRes.error;
+
+    var insertRes = await client.from(SUPABASE_SONG_TABLE).insert(record);
+    if (insertRes.error) {
+      await client.storage.from(SUPABASE_SONG_BUCKET).remove([record.storage_path]);
+      throw insertRes.error;
+    }
+  }
+
+  async function deleteSongRecord(entry) {
+    if (!entry || !entry.songPath) {
+      throw new Error('No song selected.');
+    }
+    var client = getSupabaseClient();
+    var rowCleanupFailed = false;
+
+    if (entry.songPath) {
+      var removeFileRes = await client.storage.from(SUPABASE_SONG_BUCKET).remove([entry.songPath]);
+      if (removeFileRes.error && String(removeFileRes.error.message || '').toLowerCase().indexOf('not found') === -1) {
+        var removeMessage = String(removeFileRes.error.message || '');
+        if (/row-level security|permission denied|not allowed|policy/i.test(removeMessage)) {
+          throw new Error('Supabase denied delete in storage bucket "' + SUPABASE_SONG_BUCKET + '". Check storage delete policy.');
+        }
+        throw removeFileRes.error;
+      }
+    }
+
+    if (entry.songId && String(entry.songId).indexOf('storage:') !== 0) {
+      var deleteRowRes = await client.from(SUPABASE_SONG_TABLE).delete().eq('id', entry.songId);
+      if (deleteRowRes.error) {
+        rowCleanupFailed = true;
+        console.warn('Storage file deleted, but songs row cleanup failed:', deleteRowRes.error);
+      }
+    } else {
+      var cleanupByPathRes = await client.from(SUPABASE_SONG_TABLE).delete().eq('storage_path', entry.songPath);
+      if (cleanupByPathRes.error) {
+        rowCleanupFailed = true;
+        console.warn('Storage file deleted, but songs row cleanup by path failed:', cleanupByPathRes.error);
+      }
+    }
+
+    return {
+      rowCleanupFailed: rowCleanupFailed,
+    };
+  }
+
+  async function getSongStreamUrl(songPath) {
+    var client = getSupabaseClient();
+    var result = await client.storage
+      .from(SUPABASE_SONG_BUCKET)
+      .createSignedUrl(songPath, SUPABASE_SIGNED_URL_TTL_SECONDS);
+    if (result.error) throw result.error;
+    if (!result.data || !result.data.signedUrl) {
+      throw new Error('Could not build a song URL from Supabase.');
+    }
+    return result.data.signedUrl;
+  }
+
+  function isAudioFile(file) {
+    if (!file || !file.name) return false;
+    if (file.type && file.type.toLowerCase().indexOf('audio/') === 0) return true;
+    return isAudioName(file.name);
+  }
+
+  async function loadSongsFromArchive() {
+    if (!supabaseClient) {
+      NODES.songs.entries = [];
+      return false;
+    }
+    try {
+      var tableRecords = [];
+      var storageRecords = [];
+      var tableError = null;
+      var storageError = null;
+
+      try {
+        tableRecords = await readAllSongRecords();
+      } catch (e) {
+        tableError = e;
+      }
+
+      try {
+        storageRecords = await readAllSongStorageRecords();
+      } catch (e) {
+        storageError = e;
+      }
+
+      if (storageError && tableError) {
+        throw storageError;
+      }
+
+      var mergedRecords;
+      if (storageError && !tableError) {
+        mergedRecords = tableRecords.slice();
+      } else {
+        mergedRecords = mergeSongSources(tableRecords, storageRecords);
+      }
+      NODES.songs.entries = mergedRecords.map(recordToSongEntry);
+
+      if (tableError) {
+        console.warn('Could not read songs table metadata from Supabase:', tableError);
+      }
+      if (storageError) {
+        console.warn('Could not read songs bucket contents from Supabase:', storageError);
+      }
+      return true;
+    } catch (e) {
+      console.warn('Could not load songs from Supabase:', e);
+      NODES.songs.entries = [];
+      return false;
+    }
+  }
+
+  async function importSongs(files) {
+    getSupabaseClient();
+    var added = 0;
+    var failed = 0;
+    var skipped = 0;
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      if (!isAudioFile(file)) {
+        skipped++;
+        continue;
+      }
+      var songId = createSongId();
+      var record = {
+        id: songId,
+        name: file.name,
+        mime: file.type || 'audio/*',
+        size: file.size || 0,
+        added_at: new Date().toISOString(),
+        storage_path: buildSongStoragePath(songId, file.name),
+      };
+      try {
+        await saveSongRecord(record, file);
+        added++;
+      } catch (e) {
+        failed++;
+        console.warn('Could not upload song "' + file.name + '" to Supabase:', e);
+      }
+    }
+    if (failed && !added) {
+      throw new Error('No songs were uploaded to Supabase.');
+    }
+    return {
+      added: added,
+      failed: failed,
+      skipped: skipped,
+    };
+  }
+
+  async function openAudioEntry(entry) {
+    if (!entry || !entry.songPath) return;
+    setAppLoading(true, 'Opening song...');
+    try {
+      var streamUrl = await getSongStreamUrl(entry.songPath);
+      lightboxImg.style.display = 'none';
+      audioTitle.textContent = entry.name || 'Song';
+      audioPlayer.src = streamUrl;
+      audioBox.style.display = 'flex';
+      lightbox.classList.add('open');
+      audioPlayer.play().catch(function () {});
+    } catch (e) {
+      console.warn('Could not open song:', e);
+      notify('error', messageFromError(e, 'Could not open this song from Supabase.'));
+    } finally {
+      setAppLoading(false);
+    }
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightboxImg.src = '';
+    lightboxImg.style.display = '';
+    audioBox.style.display = 'none';
+    audioTitle.textContent = '';
+    audioPlayer.pause();
+    audioPlayer.removeAttribute('src');
+    audioPlayer.load();
+  }
+
+  function getEntries() {
+    const node = NODES[state.nodeId];
+    if (!node) return [];
+    let list = node.entries.slice();
+    const q = state.searchQuery.trim().toLowerCase();
+    if (q) list = list.filter((e) => e.name.toLowerCase().includes(q));
+    return list;
+  }
+
+  function applyThemePreference() {
+    const stored = safeStorage.get(STORAGE_THEME);
+    htmlEl.setAttribute('data-theme', stored === 'system' || !stored ? 'system' : stored);
+  }
+
+  function updateThemeIcon() {
+    const stored = safeStorage.get(STORAGE_THEME) || 'system';
+    const icon = document.getElementById('iconTheme');
+    const btn = document.getElementById('btnTheme');
+    if (!icon || !btn) return;
+    const labels = {
+      system: 'Appearance: Match system (click to use light)',
+      light: 'Appearance: Light (click to use dark)',
+      dark: 'Appearance: Dark (click to match system)',
+    };
+    btn.title = labels[stored] || labels.system;
+    if (stored === 'dark') {
+      icon.innerHTML = '<path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 6.5 6.5 0 1 0 21 14.5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>';
+    } else if (stored === 'light') {
+      icon.innerHTML = '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" stroke-width="1.6" fill="none"/>';
+    } else {
+      icon.innerHTML = '<rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M7 8h6M7 12h10" stroke="currentColor" stroke-width="1.6" fill="none"/>';
+    }
+  }
+
+  document.getElementById('sidebarNav').innerHTML = SIDEBAR_HTML.trim();
+
+  function clearSelection() {
+    state.selection = null;
+  }
+
+  function navigateTo(nodeId, pushHistory) {
+    if (!NODES[nodeId]) return;
+    if (motionOK && state.nodeId !== nodeId) {
+      state.contentSlide = 'forward';
+    }
+    if (pushHistory) {
+      state.history = state.history.slice(0, state.historyIndex + 1);
+      if (state.history[state.history.length - 1] !== nodeId) {
+        state.history.push(nodeId);
+        state.historyIndex = state.history.length - 1;
+      }
+    }
+    state.nodeId = nodeId;
+    clearSelection();
+    syncSidebarActive();
+    render();
+    if (nodeId === 'songs') {
+      refreshSongsInBackground();
+    }
+  }
+
+  function goBack() {
+    if (state.historyIndex <= 0) return;
+    if (motionOK) {
+      state.contentSlide = 'back';
+    }
+    state.historyIndex--;
+    state.nodeId = state.history[state.historyIndex];
+    clearSelection();
+    syncSidebarActive();
+    render();
+    if (state.nodeId === 'songs') {
+      refreshSongsInBackground();
+    }
+  }
+
+  function goForwardNav() {
+    if (state.historyIndex >= state.history.length - 1) return;
+    if (motionOK) {
+      state.contentSlide = 'forward';
+    }
+    state.historyIndex++;
+    state.nodeId = state.history[state.historyIndex];
+    clearSelection();
+    syncSidebarActive();
+    render();
+    if (state.nodeId === 'songs') {
+      refreshSongsInBackground();
+    }
+  }
+
+  function syncSidebarActive() {
+    document.querySelectorAll('.nav-item').forEach((btn) => btn.classList.remove('active'));
+    const node = NODES[state.nodeId];
+    if (!node) return;
+    let btn = document.querySelector('.nav-item[data-node="' + state.nodeId + '"]');
+    if (!btn && node.sidebarKey) {
+      btn = document.querySelector('.nav-item[data-sidebar="' + node.sidebarKey + '"]');
+    }
+    if (btn) btn.classList.add('active');
+  }
+
+  function folderHTML(variant) {
+    if (variant === 'receipts') {
+      return '<div class="folder-standard folder-receipts"><span class="tab"></span><span class="body"></span><div class="plane"><svg viewBox="0 0 24 24"><path d="M22 12L12 9V5h-2v4L2 11v2l8 3v4h2v-4l10-3v-3z"/></svg></div></div>';
+    }
+    return '<div class="folder-standard"><span class="tab"></span><span class="body"></span></div>';
+  }
+
+  function audioFileIconHTML(size) {
+    var sizeClass = size === 'small' ? 'audio-file-svg--small' : 'audio-file-svg--large';
+    return (
+      '<svg class="audio-file-svg ' +
+      sizeClass +
+      '" viewBox="0 0 43 56" aria-hidden="true">' +
+      '<path class="audio-file-paper" d="M6 2h24l12 12v38a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/>' +
+      '<path class="audio-file-fold" d="M30 2v12h12z"/>' +
+      '<path class="audio-file-outline" d="M6 2h24l12 12v38a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/>' +
+      '<path class="audio-file-outline" d="M30 2v12h12"/>' +
+      '<rect class="audio-file-wave" x="12.4" y="28" width="2.2" height="8" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="16.8" y="24" width="2.2" height="16" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="21.2" y="20" width="2.2" height="24" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="25.6" y="24" width="2.2" height="16" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="30" y="28" width="2.2" height="8" rx="1.1"/>' +
+      '</svg>'
+    );
+  }
+
+  function kindFor(entry) {
+    if (entry.fakeExt) return entry.fakeExt;
+    if (entry.type === 'folder') return 'Folder';
+    if (entry.type === 'audio') return 'Audio file';
+    if (/\.jpe?g$/i.test(entry.name)) return 'JPEG image';
+    if (/\.png$/i.test(entry.name)) return 'PNG image';
+    if (/\.pdf$/i.test(entry.name)) return 'PDF document';
+    return 'Document';
+  }
+
+  function fakeSize(name, i) {
+    const base = 4000 + (name.charCodeAt(0) || 0) * 127 + i * 413;
+    if (base < 8000) return (base / 1024).toFixed(1) + ' KB';
+    return (base / 1024 / 1024).toFixed(2) + ' MB';
+  }
+
+  function sizeForEntry(entry, i) {
+    if (entry.type === 'folder') return '--';
+    if (typeof entry.sizeBytes === 'number') return formatSizeFromBytes(entry.sizeBytes);
+    return fakeSize(entry.name, i);
+  }
+
+  function renderGrid(entries, doStagger) {
+    grid.innerHTML = '';
+    entries.forEach((e, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'item';
+      wrap.tabIndex = 0;
+      wrap.dataset.index = String(i);
+      if (state.selection === i) wrap.classList.add('selected');
+      if (doStagger) {
+        wrap.classList.add('fx-stagger');
+        wrap.style.setProperty('--stagger', String(i * 40));
+      }
+
+      if (e.type === 'folder') {
+        const label = e.tag
+          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
+          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
+        wrap.innerHTML = '<div class="folder-wrap">' + folderHTML(e.variant) + '</div>' + label;
+      } else if (e.type === 'audio') {
+        const label = e.tag
+          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
+          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
+        wrap.innerHTML =
+          '<div class="item-audio" aria-hidden="true">' +
+          audioFileIconHTML('large') +
+          '</div>' +
+          label;
+      } else {
+        const label = e.tag
+          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
+          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
+        wrap.innerHTML = '<img class="item-thumb" src="' + thumbUrl(e.seed) + '" alt="" width="88" height="72" loading="lazy" />' + label;
+      }
+
+      wrap.addEventListener('click', () => selectIndex(i));
+      wrap.addEventListener('dblclick', (ev) => onOpenEntry(entries[i], ev));
+      grid.appendChild(wrap);
+    });
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  }
+
+  function syncSelectionUI() {
+    var selected = state.selection;
+    document
+      .querySelectorAll('#grid .item, #listBody tr, #colList .col-row, #galleryStrip .gallery-tile')
+      .forEach(function (el) {
+        var idx = Number(el.dataset.index);
+        el.classList.toggle('selected', selected != null && idx === selected);
+      });
+  }
+
+  function updateSelectionPreview() {
+    var entries = getEntries();
+    var entry = state.selection != null ? entries[state.selection] : null;
+
+    if (state.view === 'column') {
+      if (entry) updateColumnPreview(entry);
+      else colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
+      return;
+    }
+
+    if (state.view === 'gallery') {
+      if (!entry || entry.type !== 'image') return;
+      galleryHeroImg.src = thumbUrlLarge(entry.seed);
+      galleryHeroImg.alt = entry.name;
+      galleryHeroImg.style.display = '';
+      galleryHeroPlaceholder.style.display = 'none';
+    }
+  }
+
+  function selectIndex(i) {
+    if (state.selection === i) return;
+    state.selection = i;
+    syncSelectionUI();
+    updateSelectionPreview();
+    syncSupabaseUiState();
+  }
+
+  function onOpenEntry(entry, ev) {
+    if (!entry) return;
+    if (entry.type === 'folder') {
+      navigateTo(entry.node, true);
+      return;
+    }
+    if (entry.type === 'audio') {
+      openAudioEntry(entry);
+      return;
+    }
+    if (entry.type === 'image') {
+      audioBox.style.display = 'none';
+      audioPlayer.pause();
+      audioPlayer.removeAttribute('src');
+      audioPlayer.load();
+      lightboxImg.style.display = '';
+      lightboxImg.src = thumbUrlLarge(entry.seed);
+      lightboxImg.alt = entry.name;
+      lightbox.classList.add('open');
+    }
+  }
+
+  function renderList(entries, doStagger) {
+    listBody.innerHTML = '';
+    entries.forEach((e, i) => {
+      const tr = document.createElement('tr');
+      if (state.selection === i) tr.classList.add('selected');
+      tr.dataset.index = String(i);
+      if (doStagger) {
+        tr.classList.add('fx-stagger');
+        tr.style.setProperty('--stagger', String(i * 32));
+      }
+
+      const nameCell = document.createElement('td');
+      const row = document.createElement('div');
+      row.className = 'list-name-cell';
+      if (e.type === 'folder') {
+        row.innerHTML = '<span class="list-mini-icon">' + folderHTML(e.variant) + '</span><span>' + escapeHtml(e.name) + '</span>';
+      } else if (e.type === 'audio') {
+        row.innerHTML =
+          '<span class="list-mini-icon"><span class="list-audio-icon">' +
+          audioFileIconHTML('small') +
+          '</span></span><span>' +
+          escapeHtml(e.name) +
+          '</span>';
+      } else {
+        row.innerHTML = '<span class="list-mini-icon"><img src="' + thumbUrl(e.seed) + '" alt="" /></span><span>' + escapeHtml(e.name) + '</span>';
+      }
+      nameCell.appendChild(row);
+
+      const kindCell = document.createElement('td');
+      kindCell.textContent = kindFor(e);
+
+      const sizeCell = document.createElement('td');
+      sizeCell.textContent = sizeForEntry(e, i);
+
+      tr.appendChild(nameCell);
+      tr.appendChild(kindCell);
+      tr.appendChild(sizeCell);
+
+      tr.addEventListener('click', () => selectIndex(i));
+      tr.addEventListener('dblclick', (ev) => onOpenEntry(entries[i], ev));
+      listBody.appendChild(tr);
+    });
+  }
+
+  function renderColumn(entries, doStagger) {
+    colList.innerHTML = '';
+    colPreview.innerHTML = '';
+    entries.forEach((e, i) => {
+      const row = document.createElement('div');
+      row.className = 'col-row' + (state.selection === i ? ' selected' : '');
+      row.dataset.index = String(i);
+      row.textContent = e.name;
+      if (e.type === 'folder') row.style.fontWeight = '600';
+      if (doStagger) {
+        row.classList.add('fx-stagger');
+        row.style.setProperty('--stagger', String(i * 36));
+      }
+      row.addEventListener('click', () => selectIndex(i));
+      row.addEventListener('dblclick', (ev) => onOpenEntry(e, ev));
+      colList.appendChild(row);
+    });
+    if (entries.length && state.selection != null && entries[state.selection]) {
+      updateColumnPreview(entries[state.selection]);
+    } else {
+      colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
+    }
+  }
+
+  function updateColumnPreview(entry) {
+    if (!entry) {
+      colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
+      return;
+    }
+    if (entry.type === 'folder') {
+      colPreview.innerHTML = '<div class="col-preview-placeholder">Folder: ' + escapeHtml(entry.name) + '<br><small>Double-click to open</small></div>';
+      return;
+    }
+    if (entry.type === 'audio') {
+      colPreview.innerHTML = '<div class="col-preview-placeholder">Audio file: ' + escapeHtml(entry.name) + '<br><small>Double-click to play</small></div>';
+      return;
+    }
+    colPreview.innerHTML = '<img class="col-preview-img" src="' + thumbUrlLarge(entry.seed) + '" alt="' + escapeHtml(entry.name) + '" />';
+  }
+
+  function renderGalleryView(entries, doStagger) {
+    galleryStrip.innerHTML = '';
+    if (galleryHero) {
+      galleryHero.classList.toggle('fx-hero-pop', Boolean(doStagger));
+    }
+    const images = entries.map((e, i) => ({ e, i })).filter((x) => x.e.type === 'image');
+    if (!images.length) {
+      galleryHeroPlaceholder.style.display = '';
+      galleryHeroImg.style.display = 'none';
+      galleryHeroPlaceholder.textContent = 'No images in this folder';
+      return;
+    }
+    let sel = state.selection;
+    if (sel == null || !entries[sel] || entries[sel].type !== 'image') {
+      sel = images[0].i;
+      state.selection = sel;
+    }
+    const pick = entries[sel];
+    galleryHeroImg.src = thumbUrlLarge(pick.seed);
+    galleryHeroImg.alt = pick.name;
+    galleryHeroImg.style.display = '';
+    galleryHeroPlaceholder.style.display = 'none';
+    images.forEach(({ e, i }) => {
+      const tile = document.createElement('div');
+      tile.className = 'gallery-tile' + (state.selection === i ? ' selected' : '');
+      tile.dataset.index = String(i);
+      if (doStagger) {
+        tile.classList.add('fx-stagger');
+        tile.style.setProperty('--stagger', String(i * 38));
+      }
+      tile.innerHTML = '<img class="g-thumb" src="' + thumbUrl(e.seed) + '" alt="" /><span>' + escapeHtml(e.name) + '</span>';
+      tile.addEventListener('click', () => selectIndex(i));
+      galleryStrip.appendChild(tile);
+    });
+  }
+
+  function render() {
+    const entries = getEntries();
+    const node = NODES[state.nodeId];
+    tbTitle.textContent = node ? node.title : '';
+    btnBack.disabled = state.historyIndex <= 0;
+    btnForward.disabled = state.historyIndex >= state.history.length - 1;
+
+    const doStagger = false;
+
+    const slide = state.contentSlide;
+    state.contentSlide = null;
+
+    contentEl.className = 'content view-' + state.view;
+    if (slide === 'forward') {
+      void contentEl.offsetWidth;
+      contentEl.classList.add('anim-slide-forward');
+    } else if (slide === 'back') {
+      void contentEl.offsetWidth;
+      contentEl.classList.add('anim-slide-back');
+    }
+
+    renderGrid(entries, doStagger);
+    renderList(entries, doStagger);
+    renderColumn(entries, doStagger);
+    if (state.view === 'gallery') {
+      renderGalleryView(entries, doStagger);
+    }
+    syncSupabaseUiState();
+  }
+
+  function refreshSongsInBackground(force) {
+    var forced = Boolean(force);
+    if (songsRefreshInFlight) {
+      songsRefreshPending = true;
+      return;
+    }
+    if (!forced && state.nodeId !== 'songs') return;
+    if (!supabaseClient) return;
+    songsRefreshInFlight = true;
+    songsRefreshPending = false;
+    loadSongsFromArchive()
+      .catch(function () {
+        /* loadSongsFromArchive already handles logging */
+      })
+      .finally(function () {
+        songsRefreshInFlight = false;
+        if (state.nodeId === 'songs') render();
+        if (songsRefreshPending) {
+          songsRefreshPending = false;
+          refreshSongsInBackground(true);
+        }
+      });
+  }
+
+  function stopSongsSyncPolling() {
+    if (!songsSyncIntervalId) return;
+    window.clearInterval(songsSyncIntervalId);
+    songsSyncIntervalId = null;
+  }
+
+  function startSongsSyncPolling() {
+    if (songsSyncIntervalId) return;
+    songsSyncIntervalId = window.setInterval(function () {
+      if (document.visibilityState === 'hidden') return;
+      if (!supabaseClient) return;
+      refreshSongsInBackground(true);
+    }, SONGS_SYNC_POLL_MS);
+  }
+
+  function teardownSongsRealtimeSync() {
+    if (!songsRealtimeChannel) return;
+    try {
+      if (supabaseClient && typeof supabaseClient.removeChannel === 'function') {
+        supabaseClient.removeChannel(songsRealtimeChannel);
+      }
+    } catch (e) {
+      console.warn('Could not remove realtime channel:', e);
+    }
+    songsRealtimeChannel = null;
+  }
+
+  function setupSongsRealtimeSync() {
+    stopSongsSyncPolling();
+    teardownSongsRealtimeSync();
+    if (!supabaseClient || typeof supabaseClient.channel !== 'function') return;
+
+    try {
+      var channel = supabaseClient.channel('finder-songs-sync-' + Math.floor(Math.random() * 1000000));
+
+      channel.on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: SUPABASE_SONG_TABLE },
+        function () {
+          refreshSongsInBackground(true);
+        }
+      );
+
+      channel.on(
+        'postgres_changes',
+        { event: '*', schema: 'storage', table: 'objects', filter: 'bucket_id=eq.' + SUPABASE_SONG_BUCKET },
+        function () {
+          refreshSongsInBackground(true);
+        }
+      );
+
+      channel.subscribe(function (status) {
+        if (status === 'SUBSCRIBED') {
+          refreshSongsInBackground(true);
+          return;
+        }
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          startSongsSyncPolling();
+        }
+      });
+
+      songsRealtimeChannel = channel;
+    } catch (e) {
+      console.warn('Could not initialize realtime songs sync:', e);
+    }
+
+    startSongsSyncPolling();
+  }
+
+  function syncSupabaseUiState() {
+    if (!btnUploadSongs.classList.contains('is-loading')) {
+      btnUploadSongs.disabled = false;
+      if (supabaseClient) {
+        btnUploadSongs.title = 'Upload songs';
+      } else if (supabaseInitError) {
+        btnUploadSongs.title = supabaseInitError + ' Click to retry.';
+      } else {
+        btnUploadSongs.title = 'Configure Supabase URL/key to upload songs';
+      }
+    }
+
+    if (btnDeleteSong.classList.contains('is-loading')) return;
+
+    var selectedSong = getSelectedSongEntry();
+    if (!supabaseClient) {
+      btnDeleteSong.disabled = true;
+      btnDeleteSong.title = 'Configure Supabase URL/key to delete songs';
+      return;
+    }
+    if (!selectedSong) {
+      btnDeleteSong.disabled = true;
+      if (state.nodeId !== 'songs') {
+        btnDeleteSong.title = 'Open Songs and select one to delete';
+      } else {
+        btnDeleteSong.title = 'Select a song to delete';
+      }
+      return;
+    }
+    btnDeleteSong.disabled = false;
+    btnDeleteSong.title = 'Delete "' + selectedSong.name + '"';
+  }
+
+  document.getElementById('sidebarNav').addEventListener('click', (ev) => {
+    const btn = ev.target.closest('.nav-item');
+    if (!btn || !btn.dataset.node) return;
+    navigateTo(btn.dataset.node, true);
+  });
+
+  btnBack.addEventListener('click', goBack);
+  btnForward.addEventListener('click', goForwardNav);
+
+  btnUploadSongs.addEventListener('click', async () => {
+    if (!supabaseClient && !initSupabaseClient()) {
+      syncSupabaseUiState();
+      notify(
+        'error',
+        (supabaseInitError || 'Unknown initialization error.') +
+          ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.',
+        6200
+      );
+      return;
+    }
+    if (!requireActionPassword('upload songs')) return;
+    syncSupabaseUiState();
+    songUploadInput.click();
+  });
+
+  btnDeleteSong.addEventListener('click', async () => {
+    if (!supabaseClient && !initSupabaseClient()) {
+      syncSupabaseUiState();
+      notify(
+        'error',
+        (supabaseInitError || 'Unknown initialization error.') +
+          ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.',
+        6200
+      );
+      return;
+    }
+
+    var selectedSong = getSelectedSongEntry();
+    if (!selectedSong) {
+      notify('info', 'Select a song in Songs before deleting.');
+      syncSupabaseUiState();
+      return;
+    }
+
+    if (!requireActionPassword('delete this song')) return;
+
+    setDeleteButtonLoading(true);
+    setAppLoading(true, 'Removing song from Supabase...');
+    try {
+      var deleteResult = await deleteSongRecord(selectedSong);
+      removeSongFromSongsNode(selectedSong.songId);
+      clearSelection();
+      if (lightbox.classList.contains('open')) {
+        closeLightbox();
+      }
+      if (state.nodeId !== 'songs') {
+        navigateTo('songs', true);
+      } else {
+        render();
+      }
+      notify('success', 'Deleted "' + selectedSong.name + '".');
+
+      var refreshed = await loadSongsFromArchive();
+      removeSongFromSongsNode(selectedSong.songId);
+      if (state.nodeId === 'songs') {
+        render();
+      }
+      if (!refreshed) {
+        notify('warning', 'Song was deleted, but list refresh failed. Try reloading.', 5600);
+      }
+      if (deleteResult && deleteResult.rowCleanupFailed) {
+        notify(
+          'warning',
+          'Song file was deleted, but table metadata cleanup failed. You may need to clean stale rows in Supabase.',
+          6200
+        );
+      }
+    } catch (e) {
+      console.warn('Song delete failed:', e);
+      notify('error', messageFromError(e, 'Could not delete song from Supabase.'), 6200);
+    } finally {
+      setDeleteButtonLoading(false);
+      setAppLoading(false);
+      syncSupabaseUiState();
+    }
+  });
+
+  songUploadInput.addEventListener('change', async () => {
+    const files = Array.from(songUploadInput.files || []);
+    if (!files.length) return;
+    setUploadButtonLoading(true);
+    setAppLoading(true, files.length > 1 ? 'Uploading songs to Supabase...' : 'Uploading song to Supabase...');
+    try {
+      const summary = await importSongs(files);
+      const refreshed = await loadSongsFromArchive();
+      clearSelection();
+      if (state.nodeId !== 'songs') {
+        navigateTo('songs', true);
+      } else {
+        render();
+      }
+      if (!summary.added) {
+        notify('info', 'No supported audio files were selected.');
+      } else if (summary.failed) {
+        notify(
+          'warning',
+          summary.added +
+            ' song(s) uploaded, ' +
+            summary.failed +
+            ' failed.' +
+            (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : ''),
+          5200
+        );
+      } else {
+        notify(
+          'success',
+          summary.added +
+            ' song(s) uploaded successfully.' +
+            (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : '')
+        );
+      }
+      if (!refreshed && supabaseClient) {
+        notify('warning', 'Songs were uploaded, but list refresh failed. Try reloading.', 5200);
+      }
+    } catch (e) {
+      console.warn('Song import failed:', e);
+      notify(
+        'error',
+        messageFromError(
+          e,
+          'Could not import songs to Supabase. Check your URL/key, table, bucket, and permissions.'
+        ),
+        6200
+      );
+    } finally {
+      songUploadInput.value = '';
+      setUploadButtonLoading(false);
+      setAppLoading(false);
+      syncSupabaseUiState();
+    }
+  });
+
+  $('#btnSearch').addEventListener('click', () => {
+    state.searchOpen = !state.searchOpen;
+    $('#btnSearch').classList.toggle('is-pressed', state.searchOpen);
+    $('#btnSearch').setAttribute('aria-pressed', state.searchOpen ? 'true' : 'false');
+    searchField.classList.toggle('visible', state.searchOpen);
+    if (state.searchOpen) {
+      searchField.focus();
+    } else {
+      state.searchQuery = '';
+      searchField.value = '';
+      render();
+    }
+  });
+
+  searchField.addEventListener('input', () => {
+    state.searchQuery = searchField.value;
+    clearSelection();
+    render();
+  });
+
+
+  lightbox.addEventListener('click', closeLightbox);
+  audioBox.addEventListener('click', (ev) => ev.stopPropagation());
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (lightbox.classList.contains('open')) {
+        closeLightbox();
+        return;
+      }
+      if (state.searchOpen) {
+        $('#btnSearch').click();
+      }
+    }
+  });
+
+
+  document.body.addEventListener('click', (e) => {
+    if (!finder.classList.contains('is-hidden')) return;
+    if (!finder.contains(e.target)) {
+      finder.classList.remove('is-hidden');
+    }
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') {
+      refreshSongsInBackground(true);
+    }
+  });
+
+  window.addEventListener('focus', function () {
+    refreshSongsInBackground(true);
+  });
+
+  window.addEventListener('beforeunload', function () {
+    stopSongsSyncPolling();
+    teardownSongsRealtimeSync();
+  });
+
+  (function watchSystemTheme() {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = function () {
+      if ((safeStorage.get(STORAGE_THEME) || 'system') === 'system') {
+        applyThemePreference();
+      }
+    };
+    if (mq.addEventListener) {
+      mq.addEventListener('change', onChange);
+    } else if (mq.addListener) {
+      mq.addListener(onChange);
+    }
+  })();
+
+  if (!safeStorage.get(STORAGE_THEME)) {
+    safeStorage.set(STORAGE_THEME, 'system');
+  }
+
+  async function initSongArchive() {
+    setAppLoading(true, 'Loading songs...');
+    try {
+      initSupabaseClient();
+      if (supabaseClient) setupSongsRealtimeSync();
+      else {
+        stopSongsSyncPolling();
+        teardownSongsRealtimeSync();
+      }
+      syncSupabaseUiState();
+      var loaded = await loadSongsFromArchive();
+      render();
+      if (!supabaseClient) {
+        notify('warning', 'Supabase is not configured. Add URL and anon key to enable uploads.', 5400);
+      } else if (!loaded) {
+        notify('error', 'Could not load songs from Supabase right now.', 5600);
+      }
+    } finally {
+      setAppLoading(false);
+    }
+  }
+
+  applyThemePreference();
+  updateThemeIcon();
+  initSongArchive();
+})();
+
+  </script>
+</body>
+</html>

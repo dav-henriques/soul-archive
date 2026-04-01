@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finder</title>
+  <title>soul archive.</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     * {
-        -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
 
     :root {
@@ -116,14 +116,8 @@
     }
 
     @keyframes itemRise {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes rowRise {
@@ -192,12 +186,6 @@
       transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
     }
 
-    .finder.is-zoomed {
-      width: calc(100vw - 24px);
-      height: calc(100vh - 24px);
-      border-radius: 10px;
-    }
-
     .finder.is-hidden {
       opacity: 0;
       pointer-events: none;
@@ -236,8 +224,8 @@
       filter: brightness(1.08);
     }
     .traffic .close { background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.12); }
-    .traffic .min { background: #febc2e; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
-    .traffic .zoom { background: #28c840; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
+    .traffic .min   { background: #febc2e; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
+    .traffic .zoom  { background: #28c840; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.08); }
 
     .nav-scroll {
       flex: 1;
@@ -329,9 +317,7 @@
       pointer-events: none;
       color: transparent;
     }
-    .tb-icon-btn.is-loading svg {
-      opacity: 0;
-    }
+    .tb-icon-btn.is-loading svg { opacity: 0; }
     .tb-icon-btn.is-loading::after {
       content: '';
       position: absolute;
@@ -383,46 +369,6 @@
     .search-field.visible {
       display: block;
       animation: paneSlideForward 0.18s var(--ease-out) both;
-    }
-
-    .segment {
-      display: flex;
-      background: var(--segment-bg);
-      border-radius: 6px;
-      padding: 2px;
-    }
-
-    .segment button {
-      width: 32px;
-      height: 26px;
-      border: none;
-      background: transparent;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--text-muted);
-      font-family: inherit;
-      transition: transform 0.12s var(--ease-out), color 0.15s ease, background 0.15s ease;
-    }
-    .segment button:hover:not(.on) { color: var(--text); }
-    .segment button.on {
-      background: var(--segment-active);
-      color: var(--accent);
-    }
-
-    .segment svg {
-      width: 15px;
-      height: 15px;
-      stroke: currentColor;
-      stroke-width: 1.35;
-      fill: none;
-    }
-
-    .theme-toggle {
-      width: 30px;
-      height: 28px;
     }
 
     .tb-actions {
@@ -488,9 +434,7 @@
       vertical-align: middle;
       color: var(--text);
     }
-    .list-table tr {
-      cursor: pointer;
-    }
+    .list-table tr { cursor: pointer; }
     .list-table tr.fx-stagger {
       opacity: 0;
       animation: rowRise 0.22s var(--ease-out) forwards;
@@ -621,9 +565,7 @@
       text-align: center;
       transition: transform 0.12s var(--ease-out);
     }
-    .gallery-tile:hover {
-      transform: translateY(-3px);
-    }
+    .gallery-tile:hover { transform: translateY(-3px); }
     .gallery-tile.fx-stagger {
       opacity: 0;
       animation: itemRise 0.24s var(--ease-out) forwards;
@@ -666,17 +608,10 @@
       border: 2px solid transparent;
       transition: transform 0.12s var(--ease-out);
     }
-    .item:hover {
-      transform: translateY(-2px);
-    }
+    .item:hover { transform: translateY(-2px); }
     .item:focus { outline: none; }
-    .item.selected {
-      background: var(--selection-bg);
-    }
-    .item.selected:hover {
-      transform: translateY(-2px);
-    }
-
+    .item.selected { background: var(--selection-bg); }
+    .item.selected:hover { transform: translateY(-2px); }
     .item.fx-stagger {
       opacity: 0;
       animation: itemRise 0.26s var(--ease-out) forwards;
@@ -692,9 +627,7 @@
       pointer-events: none;
       transition: transform 0.12s var(--ease-out);
     }
-    .item:hover .item-thumb {
-      transform: scale(1.04);
-    }
+    .item:hover .item-thumb { transform: scale(1.04); }
 
     .item-audio {
       width: 88px;
@@ -706,9 +639,7 @@
       pointer-events: none;
       transition: transform 0.12s var(--ease-out);
     }
-    .item:hover .item-audio {
-      transform: scale(1.04);
-    }
+    .item:hover .item-audio { transform: scale(1.04); }
 
     .list-audio-icon {
       width: 100%;
@@ -718,33 +649,13 @@
       justify-content: center;
     }
 
-    .audio-file-svg {
-      display: block;
-    }
-    .audio-file-svg--large {
-      width: 52px;
-      height: 60px;
-    }
-    .audio-file-svg--small {
-      width: 17px;
-      height: 20px;
-    }
-    .audio-file-paper {
-      fill: var(--audio-paper);
-    }
-    .audio-file-fold {
-      fill: var(--audio-paper-fold);
-    }
-    .audio-file-outline {
-      fill: none;
-      stroke: var(--audio-paper-stroke);
-      stroke-width: 1;
-    }
-    .audio-file-wave {
-      
-      fill: var(--audio-wave);
-      stroke: none;
-    }
+    .audio-file-svg { display: block; }
+    .audio-file-svg--large { width: 52px; height: 60px; }
+    .audio-file-svg--small { width: 17px; height: 20px; }
+    .audio-file-paper  { fill: var(--audio-paper); }
+    .audio-file-fold   { fill: var(--audio-paper-fold); }
+    .audio-file-outline { fill: none; stroke: var(--audio-paper-stroke); stroke-width: 1; }
+    .audio-file-wave   { fill: var(--audio-wave); stroke: none; }
 
     .folder-wrap {
       width: 88px;
@@ -762,9 +673,7 @@
       position: relative;
       transition: transform 0.12s var(--ease-out);
     }
-    .item:hover .folder-standard {
-      transform: translateY(-2px) scale(1.04);
-    }
+    .item:hover .folder-standard { transform: translateY(-2px) scale(1.04); }
 
     .folder-standard .tab {
       position: absolute;
@@ -772,7 +681,7 @@
       left: 4px;
       width: 28px;
       height: 10px;
-      background: #6ea9dc;
+      background: #3f3f3f;
       border-radius: 4px 6px 0 0;
     }
     .folder-standard .body {
@@ -781,17 +690,12 @@
       left: 0;
       right: 0;
       height: 48px;
-      background: #4d8ccf;
+      background: rgb(56, 56, 56);
       border-radius: 6px 8px 8px 8px;
     }
 
-    .folder-receipts .tab {
-      background: #4f73a7;
-    }
-    .folder-receipts .body {
-      background: #395f93;
-    }
-
+    .folder-receipts .tab { background: #4f73a7; }
+    .folder-receipts .body { background: #395f93; }
     .folder-receipts .plane {
       position: absolute;
       left: 50%;
@@ -885,9 +789,7 @@
       color: var(--text);
       word-break: break-word;
     }
-    .audio-box audio {
-      width: 100%;
-    }
+    .audio-box audio { width: 100%; }
 
     .app-loading {
       position: fixed;
@@ -959,9 +861,7 @@
       pointer-events: auto;
       animation: toastIn 0.18s var(--ease-out) both;
     }
-    .toast.is-leaving {
-      animation: toastOut 0.16s var(--ease-out) both;
-    }
+    .toast.is-leaving { animation: toastOut 0.16s var(--ease-out) both; }
     .toast-dot {
       width: 8px;
       height: 8px;
@@ -990,25 +890,11 @@
       margin-top: -1px;
       flex-shrink: 0;
     }
-    .toast-close:hover {
-      background: var(--hover-bg);
-      color: var(--text);
-    }
-    .toast-info .toast-dot { background: #0a84ff; }
+    .toast-close:hover { background: var(--hover-bg); color: var(--text); }
+    .toast-info .toast-dot    { background: #0a84ff; }
     .toast-success .toast-dot { background: #2fb344; }
     .toast-warning .toast-dot { background: #f59f00; }
-    .toast-error .toast-dot { background: #e03131; }
-
-    .sr-hint {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      border: 0;
-    }
+    .toast-error .toast-dot   { background: #e03131; }
 
     @media (prefers-reduced-motion: reduce) {
       .content.anim-slide-forward .content-inner,
@@ -1042,6 +928,244 @@
       }
     }
 
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+
+      .finder {
+        width: 100%;
+        height: 100vh;
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        min-width: auto;
+        height: auto;
+        max-height: 60vh;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        z-index: 1000;
+        border-radius: 0 0 14px 14px;
+        border-right: none;
+        border-bottom: 1px solid var(--toolbar-border);
+        transition: left 0.3s ease;
+        overflow-y: auto;
+      }
+
+      .sidebar.open {
+        left: 0;
+      }
+
+      .sidebar .traffic {
+        display: none;
+      }
+
+      .main {
+        flex: 1;
+        width: 100%;
+      }
+
+      .toolbar {
+        padding: 12px 16px;
+        min-height: 56px;
+        gap: 12px;
+      }
+
+      .tb-nav {
+        order: -1;
+      }
+
+      .tb-title-wrap {
+        flex: 1;
+        max-width: none;
+      }
+
+      .tb-title {
+        font-size: 16px;
+        padding-left: 8px;
+      }
+
+      .tb-actions {
+        gap: 4px;
+      }
+
+      .tb-icon-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+
+      .tb-actions .tb-icon-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      .search-field {
+        max-width: none;
+        height: 36px;
+        font-size: 16px; /* Prevents zoom on iOS */
+      }
+
+      .content-inner {
+        padding: 16px 20px 24px;
+      }
+
+      .nav-item {
+        padding: 12px 16px;
+        font-size: 16px;
+        gap: 12px;
+      }
+
+      .nav-item svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .nav-section h2 {
+        font-size: 12px;
+        padding: 8px 16px 8px;
+      }
+
+      /* Mobile-specific hamburger menu button */
+      .mobile-menu-btn {
+        display: block;
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s ease;
+        margin-right: 8px;
+      }
+
+      .mobile-menu-btn:hover {
+        background: var(--hover-bg);
+      }
+
+      .mobile-menu-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--icon-stroke);
+        stroke-width: 2;
+      }
+
+      /* Overlay for mobile sidebar */
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .sidebar-overlay.active {
+        display: block;
+        opacity: 1;
+      }
+
+      /* Grid adjustments for mobile */
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 16px;
+      }
+
+      .item {
+        padding: 12px 8px;
+      }
+
+      .item-icon {
+        width: 48px;
+        height: 48px;
+      }
+
+      .item-name {
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      /* List view adjustments */
+      .list-table {
+        font-size: 14px;
+      }
+
+      .list-table th,
+      .list-table td {
+        padding: 12px 8px;
+      }
+
+      /* Column layout adjustments */
+      .column-layout {
+        flex-direction: column;
+      }
+
+      .col-pane {
+        width: 100%;
+        min-height: 200px;
+        max-height: 50vh;
+      }
+
+      /* Gallery adjustments */
+      .gallery-layout {
+        flex-direction: column;
+      }
+
+      .gallery-hero {
+        height: 300px;
+      }
+
+      .gallery-strip {
+        height: 120px;
+      }
+
+      /* Lightbox adjustments */
+      .lightbox img {
+        max-width: 95vw;
+        max-height: 80vh;
+      }
+
+      /* Audio box adjustments */
+      .audio-box {
+        padding: 20px;
+        max-width: 100%;
+      }
+
+      /* Toast adjustments */
+      .toast {
+        max-width: 90vw;
+        margin: 8px;
+      }
+
+      /* Loading adjustments */
+      .app-loading-card {
+        padding: 24px;
+        min-width: 200px;
+      }
+    }
+
+    /* Hide mobile menu button on desktop */
+    @media (min-width: 769px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1049,14 +1173,19 @@
     <aside class="sidebar">
       <div class="traffic">
         <button type="button" class="close" id="btnClose" aria-label="Close window"></button>
-        <button type="button" class="min" id="btnMin" aria-label="Minimize window"></button>
-        <button type="button" class="zoom" id="btnZoom" aria-label="Zoom window"></button>
+        <button type="button" class="min"   aria-label="Minimize window"></button>
+        <button type="button" class="zoom"  aria-label="Zoom window"></button>
       </div>
       <nav class="nav-scroll" id="sidebarNav"></nav>
     </aside>
 
     <div class="main">
       <header class="toolbar">
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
         <div class="tb-nav">
           <button type="button" class="tb-icon-btn" id="btnBack" aria-label="Back" disabled>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
@@ -1066,7 +1195,7 @@
           </button>
         </div>
         <div class="tb-title-wrap">
-          <h1 class="tb-title" id="tbTitle">iCloud Drive</h1>
+          <h1 class="tb-title" id="tbTitle">Songs</h1>
           <input type="search" class="search-field" id="searchField" placeholder="Search..." aria-label="Filter items" autocomplete="off" />
         </div>
 
@@ -1108,6 +1237,8 @@
     </div>
   </div>
 
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
   <input type="file" id="songUploadInput" accept="audio/*" multiple style="display:none" />
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Preview">
@@ -1128,106 +1259,31 @@
   <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
 
   <script>
-    window.SUPABASE_URL = window.SUPABASE_URL || 'https://xvjdwlxihpzrwjrjubbx.supabase.co';
-    window.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'sb_publishable_PXAWIr_P97nAQY133-0kNw_EexR41AC';
+    window.SUPABASE_URL        = window.SUPABASE_URL        || 'https://xvjdwlxihpzrwjrjubbx.supabase.co';
+    window.SUPABASE_ANON_KEY   = window.SUPABASE_ANON_KEY   || 'sb_publishable_PXAWIr_P97nAQY133-0kNw_EexR41AC';
     window.SUPABASE_SONG_TABLE = window.SUPABASE_SONG_TABLE || 'songs';
-    window.SUPABASE_SONG_BUCKET = window.SUPABASE_SONG_BUCKET || 'songs';
-    window.SONG_ACTION_PASSWORD = window.SONG_ACTION_PASSWORD || 'me-dvsa!fr';
+    window.SUPABASE_SONG_BUCKET= window.SUPABASE_SONG_BUCKET|| 'songs';
+    window.SONG_ACTION_PASSWORD= window.SONG_ACTION_PASSWORD|| 'me-dvsa!fr';
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
 (function () {
   const STORAGE_THEME = 'finder-theme';
-  const SUPABASE_URL = window.SUPABASE_URL || '';
-  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || '';
-  const SUPABASE_SONG_TABLE = window.SUPABASE_SONG_TABLE || 'songs';
-  const SUPABASE_SONG_BUCKET = window.SUPABASE_SONG_BUCKET || 'songs';
+  const SUPABASE_URL         = window.SUPABASE_URL        || '';
+  const SUPABASE_ANON_KEY    = window.SUPABASE_ANON_KEY   || '';
+  const SUPABASE_SONG_TABLE  = window.SUPABASE_SONG_TABLE || 'songs';
+  const SUPABASE_SONG_BUCKET = window.SUPABASE_SONG_BUCKET|| 'songs';
   const SUPABASE_SIGNED_URL_TTL_SECONDS = 60 * 60;
-  const SONGS_SYNC_POLL_MS = 4000;
-  const SONG_ACTION_PASSWORD = window.SONG_ACTION_PASSWORD || '';
+  const SONGS_SYNC_POLL_MS   = 4000;
+  const SONG_ACTION_PASSWORD = window.SONG_ACTION_PASSWORD|| '';
 
   const safeStorage = {
-    get(k) {
-      try {
-        return localStorage.getItem(k);
-      } catch (e) {
-        return null;
-      }
-    },
-    set(k, v) {
-      try {
-        localStorage.setItem(k, v);
-      } catch (e) {
-        /* private mode / blocked */
-      }
-    },
+    get(k)    { try { return localStorage.getItem(k); }    catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); }        catch (e) { /* private mode */ } },
   };
 
+  // ── Nodes ──────────────────────────────────────────────────────────────────
   const NODES = {
-    icloud: {
-      title: 'iCloud Drive',
-      parent: null,
-      sidebarKey: 'icloud',
-      entries: [
-        { type: 'folder', name: 'Desktop', node: 'folder-desktop', variant: 'standard' },
-        { type: 'folder', name: 'Documents', node: 'folder-documents', variant: 'standard' },
-        { type: 'folder', name: 'Receipts', node: 'folder-receipts', variant: 'receipts', tag: true },
-        { type: 'image', name: 'BeverlyHills.jpeg', seed: 'beverly' },
-        { type: 'image', name: 'Brunch.jpeg', seed: 'brunch' },
-        { type: 'image', name: 'Isolate.jpeg', seed: 'isolate' },
-        { type: 'image', name: 'JuneLake.jpeg', seed: 'junelake' },
-        { type: 'image', name: 'KidsLondon.jpeg', seed: 'kidslondon' },
-        { type: 'image', name: 'LosAngeles.jpeg', seed: 'losangeles' },
-        { type: 'image', name: 'Malibu.jpeg', seed: 'malibu' },
-        { type: 'image', name: 'Mammoth.jpeg', seed: 'mammoth' },
-        { type: 'image', name: 'Pipeline-Mammoth.jpeg', seed: 'pipeline' },
-        { type: 'image', name: 'Purple.jpeg', seed: 'purple' },
-      ],
-    },
-    'folder-desktop': {
-      title: 'Desktop',
-      parent: 'icloud',
-      sidebarKey: 'fav-desktop',
-      entries: [
-        { type: 'image', name: 'Wallpaper.jpeg', seed: 'wallpaper' },
-        { type: 'folder', name: 'Screenshots', node: 'folder-shots', variant: 'standard' },
-      ],
-    },
-    'folder-documents': {
-      title: 'Documents',
-      parent: 'icloud',
-      sidebarKey: 'fav-documents',
-      entries: [
-        { type: 'image', name: 'Scan.pdf', seed: 'scan', fakeExt: 'PDF document' },
-        { type: 'image', name: 'Notes.txt', seed: 'notes', fakeExt: 'Plain text' },
-      ],
-    },
-    'folder-receipts': {
-      title: 'Receipts',
-      parent: 'icloud',
-      sidebarKey: null,
-      entries: [
-        { type: 'image', name: 'Flight.pdf', seed: 'flight' },
-        { type: 'image', name: 'Hotel.pdf', seed: 'hotel' },
-      ],
-    },
-    'folder-shots': {
-      title: 'Screenshots',
-      parent: 'folder-desktop',
-      sidebarKey: null,
-      entries: [
-        { type: 'image', name: 'Screen-01.png', seed: 'shot1' },
-        { type: 'image', name: 'Screen-02.png', seed: 'shot2' },
-      ],
-    },
-    applications: {
-      title: 'Applications',
-      parent: null,
-      sidebarKey: 'apps',
-      entries: [
-        { type: 'image', name: 'Readme.txt', seed: 'readme', fakeExt: 'Plain text' },
-      ],
-    },
     songs: {
       title: 'Songs',
       parent: null,
@@ -1239,56 +1295,32 @@
       parent: null,
       sidebarKey: 'Images',
       entries: [
-        { type: 'folder', name: 'Desktop', node: 'folder-desktop', variant: 'standard' },
-        { type: 'image', name: 'avatar.jpg', seed: 'avatar' },
+        { type: 'folder', name: 'Logos', node: 'folder-desktop', variant: 'standard' },
+        
       ],
     },
-    hd: {
-      title: 'Macintosh HD',
-      parent: null,
-      sidebarKey: 'hd',
+    'folder-desktop': {
+      title: 'Logos',
+      parent: 'images',
+      sidebarKey: null,
       entries: [
-        { type: 'folder', name: 'System', node: 'folder-system', variant: 'standard' },
-        { type: 'folder', name: 'Users', node: 'folder-users', variant: 'standard' },
+        { type: 'image', name: 'B&W.png', seed: 'B&W.png' },
+        { type: 'image', name: 'alt.png', seed: 'Frame 1.png' },
+        { type: 'image', name: 'ugly.png', seed: 'ugly.png' }
       ],
     },
-    'folder-system': {
-      title: 'System',
-      parent: 'hd',
+    'folder-shots': {
+      title: 'Screenshots',
+      parent: 'folder-desktop',
       sidebarKey: null,
-      entries: [],
-    },
-    'folder-users': {
-      title: 'Users',
-      parent: 'hd',
-      sidebarKey: null,
-      entries: [{ type: 'folder', name: 'dannyrico1', node: 'home', variant: 'standard' }],
-    },
-    'folder-team': {
-      title: 'Team Photos',
-      parent: 'shared',
-      sidebarKey: null,
-      entries: [{ type: 'image', name: 'Offsite.jpeg', seed: 'team' }],
-    },
-    testvol: {
-      title: 'Test',
-      parent: null,
-      sidebarKey: 'test',
-      entries: [{ type: 'image', name: 'sample.txt', seed: 'sample', fakeExt: 'Plain text' }],
+      entries: [
+        { type: 'image', name: 'Screen-01.png', seed: 'shot1' },
+        { type: 'image', name: 'Screen-02.png', seed: 'shot2' },
+      ],
     },
   };
 
   const SIDEBAR_HTML = `
-    <div class="nav-section">
-      <button type="button" class="nav-item" data-node="recents">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-        Recents
-      </button>
-      <button type="button" class="nav-item" data-node="shared">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M6 19v-1a6 6 0 0 1 12 0v1"/></svg>
-        Shared
-      </button>
-    </div>
     <div class="nav-section">
       <h2>Locations</h2>
       <button type="button" class="nav-item active" data-node="songs">
@@ -1302,138 +1334,110 @@
     </div>
   `;
 
+  // ── State ──────────────────────────────────────────────────────────────────
   const state = {
-    nodeId: 'songs',
-    history: ['songs'],
+    nodeId:       'songs',
+    history:      ['songs'],
     historyIndex: 0,
-    selection: null,
-    view: 'icon',
-    searchOpen: false,
-    searchQuery: '',
+    selection:    null,
+    view:         'icon',
+    searchOpen:   false,
+    searchQuery:  '',
     contentSlide: null,
   };
 
+  // ── DOM refs ───────────────────────────────────────────────────────────────
   const $ = (sel) => document.querySelector(sel);
-  const finder = $('#finder');
-  const grid = $('#grid');
-  const listBody = $('#listBody');
-  const colList = $('#colList');
-  const colPreview = $('#colPreview');
-  const galleryStrip = $('#galleryStrip');
-  const galleryHeroImg = $('#galleryHeroImg');
+  const finder               = $('#finder');
+  const grid                 = $('#grid');
+  const listBody             = $('#listBody');
+  const colList              = $('#colList');
+  const colPreview           = $('#colPreview');
+  const galleryStrip         = $('#galleryStrip');
+  const galleryHeroImg       = $('#galleryHeroImg');
   const galleryHeroPlaceholder = $('#galleryHeroPlaceholder');
-  const galleryHero = $('#galleryHero');
-  const contentEl = $('#content');
-  const tbTitle = $('#tbTitle');
-  const btnBack = $('#btnBack');
-  const btnForward = $('#btnForward');
-  const lightbox = $('#lightbox');
-  const lightboxImg = $('#lightboxImg');
-  const audioBox = $('#audioBox');
-  const audioTitle = $('#audioTitle');
-  const audioPlayer = $('#audioPlayer');
-  const songUploadInput = $('#songUploadInput');
-  const btnUploadSongs = $('#btnUploadSongs');
-  const btnDeleteSong = $('#btnDeleteSong');
-  const searchField = $('#searchField');
-  const appLoading = $('#appLoading');
-  const appLoadingText = $('#appLoadingText');
-  const toastStack = $('#toastStack');
-  const htmlEl = document.documentElement;
+  const galleryHero          = $('#galleryHero');
+  const contentEl            = $('#content');
+  const tbTitle              = $('#tbTitle');
+  const btnBack              = $('#btnBack');
+  const btnForward           = $('#btnForward');
+  const lightbox             = $('#lightbox');
+  const lightboxImg          = $('#lightboxImg');
+  const audioBox             = $('#audioBox');
+  const audioTitle           = $('#audioTitle');
+  const audioPlayer          = $('#audioPlayer');
+  const songUploadInput      = $('#songUploadInput');
+  const btnUploadSongs       = $('#btnUploadSongs');
+  const btnDeleteSong        = $('#btnDeleteSong');
+  const searchField          = $('#searchField');
+  const appLoading           = $('#appLoading');
+  const appLoadingText       = $('#appLoadingText');
+  const toastStack           = $('#toastStack');
+  const htmlEl               = document.documentElement;
+  const mobileMenuBtn        = $('#mobileMenuBtn');
+  const sidebarOverlay       = $('#sidebarOverlay');
+  const sidebar              = $('.sidebar');
 
-  if (
-    !finder ||
-    !grid ||
-    !listBody ||
-    !contentEl ||
-    !btnBack ||
-    !btnForward ||
-    !tbTitle ||
-    !searchField ||
-    !songUploadInput ||
-    !btnUploadSongs ||
-    !btnDeleteSong ||
-    !audioBox ||
-    !audioTitle ||
-    !audioPlayer ||
-    !appLoading ||
-    !appLoadingText ||
-    !toastStack ||
-    !lightbox ||
-    !lightboxImg ||
-    !document.getElementById('sidebarNav')
-  ) {
-    document.body.insertAdjacentHTML(
-      'beforeend',
-      '<p style="padding:24px;font-family:system-ui,sans-serif">This page did not load correctly (missing #finder layout). Save the file as complete HTML and open it again.</p>'
-    );
+  // Guard against missing layout elements
+  if (!finder || !grid || !listBody || !contentEl || !btnBack || !btnForward ||
+      !tbTitle || !searchField || !songUploadInput || !btnUploadSongs || !btnDeleteSong ||
+      !audioBox || !audioTitle || !audioPlayer || !appLoading || !appLoadingText ||
+      !toastStack || !lightbox || !lightboxImg || !document.getElementById('sidebarNav') ||
+      !mobileMenuBtn || !sidebarOverlay || !sidebar) {
+    document.body.insertAdjacentHTML('beforeend',
+      '<p style="padding:24px;font-family:system-ui,sans-serif">This page did not load correctly (missing #finder layout). Save the file as complete HTML and open it again.</p>');
     return;
   }
 
+  // ── Runtime vars ───────────────────────────────────────────────────────────
   var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var supabaseClient = null;
-  var supabaseInitError = '';
-  var appLoadingDepth = 0;
-  var toastCounter = 0;
+  var supabaseClient       = null;
+  var supabaseInitError    = '';
+  var appLoadingDepth      = 0;
+  var toastCounter         = 0;
   var songsRefreshInFlight = false;
-  var songsRefreshPending = false;
-  var songsSyncIntervalId = null;
+  var songsRefreshPending  = false;
+  var songsSyncIntervalId  = null;
   var songsRealtimeChannel = null;
 
   (function syncMotionPref() {
-    var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    function sync() {
-      motionOK = !mqReduce.matches;
-    }
-    if (mqReduce.addEventListener) mqReduce.addEventListener('change', sync);
-    else if (mqReduce.addListener) mqReduce.addListener(sync);
+    var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function sync() { motionOK = !mq.matches; }
+    if (mq.addEventListener) mq.addEventListener('change', sync);
+    else if (mq.addListener) mq.addListener(sync);
   })();
 
+  // ── Helpers ────────────────────────────────────────────────────────────────
   function messageFromError(err, fallback) {
-    if (err && typeof err.message === 'string' && err.message.trim()) {
-      return err.message.trim();
-    }
-    return fallback;
+    return (err && typeof err.message === 'string' && err.message.trim()) ? err.message.trim() : fallback;
   }
 
   function setUploadButtonLoading(isLoading) {
-    var active = Boolean(isLoading);
-    btnUploadSongs.classList.toggle('is-loading', active);
-    btnUploadSongs.disabled = active;
-    if (active) btnUploadSongs.title = 'Working...';
+    btnUploadSongs.classList.toggle('is-loading', Boolean(isLoading));
+    btnUploadSongs.disabled = Boolean(isLoading);
+    if (isLoading) btnUploadSongs.title = 'Working...';
   }
 
   function setDeleteButtonLoading(isLoading) {
-    var active = Boolean(isLoading);
-    btnDeleteSong.classList.toggle('is-loading', active);
-    btnDeleteSong.disabled = active;
-    if (active) btnDeleteSong.title = 'Working...';
+    btnDeleteSong.classList.toggle('is-loading', Boolean(isLoading));
+    btnDeleteSong.disabled = Boolean(isLoading);
+    if (isLoading) btnDeleteSong.title = 'Working...';
   }
 
   function getSelectedSongEntry() {
     if (state.nodeId !== 'songs' || state.selection == null) return null;
-    var entries = getEntries();
-    var entry = entries[state.selection];
-    if (!entry || entry.type !== 'audio') return null;
-    return entry;
+    var entry = getEntries()[state.selection];
+    return (entry && entry.type === 'audio') ? entry : null;
   }
 
   function removeSongFromSongsNode(songId) {
-    if (!songId) return 0;
-    var before = NODES.songs.entries.length;
-    NODES.songs.entries = NODES.songs.entries.filter(function (entry) {
-      return entry.songId !== songId;
-    });
-    return before - NODES.songs.entries.length;
+    if (!songId) return;
+    NODES.songs.entries = NODES.songs.entries.filter(e => e.songId !== songId);
   }
 
   function requireActionPassword(actionLabel) {
-    var label = actionLabel || 'continue';
-    var provided = window.prompt('Enter password to ' + label + ':');
-    if (provided == null) {
-      notify('info', 'Action canceled.');
-      return false;
-    }
+    var provided = window.prompt('Enter password to ' + (actionLabel || 'continue') + ':');
+    if (provided == null) { notify('info', 'Action canceled.'); return false; }
     if (!SONG_ACTION_PASSWORD || provided !== SONG_ACTION_PASSWORD) {
       notify('error', 'Incorrect password.', 4200);
       return false;
@@ -1449,7 +1453,6 @@
       appLoading.setAttribute('aria-hidden', 'false');
       return;
     }
-
     appLoadingDepth = Math.max(0, appLoadingDepth - 1);
     if (appLoadingDepth > 0) return;
     appLoading.classList.remove('open');
@@ -1460,14 +1463,12 @@
   function dismissToast(toastEl) {
     if (!toastEl || toastEl.classList.contains('is-leaving')) return;
     toastEl.classList.add('is-leaving');
-    window.setTimeout(function () {
-      if (toastEl.parentNode) toastEl.parentNode.removeChild(toastEl);
-    }, 180);
+    window.setTimeout(() => { if (toastEl.parentNode) toastEl.parentNode.removeChild(toastEl); }, 180);
   }
 
   function notify(type, message, timeoutMs) {
     if (!message) return;
-    var kind = /^(info|success|warning|error)$/.test(type) ? type : 'info';
+    var kind  = /^(info|success|warning|error)$/.test(type) ? type : 'info';
     var toast = document.createElement('div');
     toast.className = 'toast toast-' + kind;
     toast.id = 'toast-' + ++toastCounter;
@@ -1492,60 +1493,37 @@
     toast.appendChild(close);
     toastStack.appendChild(toast);
 
-    if (toastStack.children.length > 4) {
-      dismissToast(toastStack.firstElementChild);
-    }
+    if (toastStack.children.length > 4) dismissToast(toastStack.firstElementChild);
 
-    var ttl = typeof timeoutMs === 'number' ? timeoutMs : kind === 'error' ? 5600 : 3400;
-    var timer = window.setTimeout(function () {
-      dismissToast(toast);
-    }, ttl);
-
-    close.addEventListener('click', function (ev) {
-      ev.preventDefault();
-      ev.stopPropagation();
-      window.clearTimeout(timer);
-      dismissToast(toast);
-    });
+    var ttl   = typeof timeoutMs === 'number' ? timeoutMs : kind === 'error' ? 5600 : 3400;
+    var timer = window.setTimeout(() => dismissToast(toast), ttl);
+    close.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); window.clearTimeout(timer); dismissToast(toast); });
   }
 
-  function thumbUrl(seed) {
-    return 'https://picsum.photos/seed/' + encodeURIComponent(seed) + '/176/144';
-  }
-  function thumbUrlLarge(seed) {
-    return 'https://picsum.photos/seed/' + encodeURIComponent(seed) + '/800/600';
-  }
+function thumbUrl(seed)      { return seed; }
+function thumbUrlLarge(seed) { return seed; }
 
+  // ── Supabase ───────────────────────────────────────────────────────────────
   function hasSupabaseConfig() {
-    return Boolean(
-      SUPABASE_URL &&
-        SUPABASE_ANON_KEY &&
-        SUPABASE_URL.indexOf('YOUR-PROJECT') === -1 &&
-        SUPABASE_ANON_KEY.indexOf('YOUR-ANON-KEY') === -1
-    );
+    return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY &&
+      SUPABASE_URL.indexOf('YOUR-PROJECT') === -1 &&
+      SUPABASE_ANON_KEY.indexOf('YOUR-ANON-KEY') === -1);
   }
 
   function getSupabaseClient() {
-    if (!supabaseClient && !initSupabaseClient()) {
+    if (!supabaseClient && !initSupabaseClient())
       throw new Error(supabaseInitError || 'Supabase is not configured.');
-    }
     return supabaseClient;
   }
 
   function initSupabaseClient() {
     supabaseInitError = '';
     if (supabaseClient) {
-      if (!songsRealtimeChannel && !songsSyncIntervalId) {
-        setupSongsRealtimeSync();
-      }
+      if (!songsRealtimeChannel && !songsSyncIntervalId) setupSongsRealtimeSync();
       return true;
     }
-    if (!hasSupabaseConfig()) {
-      supabaseInitError = 'Supabase URL/key not configured.';
-      return false;
-    }
+    if (!hasSupabaseConfig()) { supabaseInitError = 'Supabase URL/key not configured.'; return false; }
     if (!window.supabase || typeof window.supabase.createClient !== 'function') {
-      console.warn('Supabase SDK was not loaded.');
       supabaseInitError = 'Supabase SDK did not load (CDN blocked or offline).';
       return false;
     }
@@ -1554,8 +1532,7 @@
       setupSongsRealtimeSync();
       return true;
     } catch (e) {
-      console.warn('Could not initialize Supabase client:', e);
-      supabaseInitError = e && e.message ? e.message : 'Could not initialize Supabase client.';
+      supabaseInitError = (e && e.message) ? e.message : 'Could not initialize Supabase client.';
       supabaseClient = null;
       return false;
     }
@@ -1563,19 +1540,14 @@
   initSupabaseClient();
 
   function sanitizeSongName(name) {
-    var sanitized = String(name || 'song')
-      .replace(/[^a-z0-9._-]+/gi, '-')
-      .replace(/^-+|-+$/g, '')
-      .toLowerCase();
-    return sanitized || 'song';
+    return (String(name || 'song').replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase()) || 'song';
   }
 
   function createSongId() {
     if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
       var r = Math.floor(Math.random() * 16);
-      var v = c === 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
   }
 
@@ -1588,9 +1560,8 @@
   }
 
   function fileNameFromStoragePath(path) {
-    var value = String(path || '');
-    var parts = value.split('/');
-    return parts.length ? parts[parts.length - 1] : value;
+    var parts = String(path || '').split('/');
+    return parts.length ? parts[parts.length - 1] : path;
   }
 
   function isLikelyStorageFolder(item) {
@@ -1601,11 +1572,11 @@
   }
 
   function storagePathFromListItem(prefix, itemName) {
-    var cleanPrefix = String(prefix || '').replace(/^\/+|\/+$/g, '');
-    var cleanName = String(itemName || '').replace(/^\/+|\/+$/g, '');
-    if (!cleanPrefix) return cleanName;
-    if (!cleanName) return cleanPrefix;
-    return cleanPrefix + '/' + cleanName;
+    var p = String(prefix   || '').replace(/^\/+|\/+$/g, '');
+    var n = String(itemName || '').replace(/^\/+|\/+$/g, '');
+    if (!p) return n;
+    if (!n) return p;
+    return p + '/' + n;
   }
 
   function storageItemToSongRecord(prefix, item) {
@@ -1616,23 +1587,21 @@
     var size = Number(meta.size || meta.fileSize || 0);
     if (!Number.isFinite(size) || size < 0) size = 0;
     return {
-      id: 'storage:' + storagePath,
-      name: fileNameFromStoragePath(storagePath),
-      mime: String(meta.mimetype || meta.contentType || ''),
-      size: size,
+      id:           'storage:' + storagePath,
+      name:         fileNameFromStoragePath(storagePath),
+      mime:         String(meta.mimetype || meta.contentType || ''),
+      size:         size,
       storage_path: storagePath,
-      added_at: item.updated_at || item.created_at || null,
+      added_at:     item.updated_at || item.created_at || null,
     };
   }
 
   async function listStoragePath(prefix) {
     var client = getSupabaseClient();
-    var rows = [];
-    var offset = 0;
+    var rows = [], offset = 0;
     while (true) {
-      var result = await client.storage
-        .from(SUPABASE_SONG_BUCKET)
-        .list(prefix || '', { limit: 100, offset: offset, sortBy: { column: 'name', order: 'asc' } });
+      var result = await client.storage.from(SUPABASE_SONG_BUCKET)
+        .list(prefix || '', { limit: 100, offset, sortBy: { column: 'name', order: 'asc' } });
       if (result.error) throw result.error;
       var page = Array.isArray(result.data) ? result.data : [];
       rows = rows.concat(page);
@@ -1643,17 +1612,18 @@
   }
 
   async function readAllSongStorageRecords() {
-    var prefixes = ['', 'songs'];
-    var pathMap = new Map();
+    var prefixes   = ['', 'songs'];
+    var pathMap    = new Map();
     var hadSuccess = false;
     var firstError = null;
-    var queue = prefixes.slice();
+    var queue      = prefixes.slice();
     var seenPrefixes = new Set(queue);
+
     while (queue.length) {
       var prefix = queue.shift();
       var items;
       try {
-        items = await listStoragePath(prefix);
+        items      = await listStoragePath(prefix);
         hadSuccess = true;
       } catch (e) {
         if (!firstError) firstError = e;
@@ -1669,11 +1639,8 @@
           }
           continue;
         }
-
         var record = storageItemToSongRecord(prefix, item);
-        if (record && !pathMap.has(record.storage_path)) {
-          pathMap.set(record.storage_path, record);
-        }
+        if (record && !pathMap.has(record.storage_path)) pathMap.set(record.storage_path, record);
       }
     }
     if (!hadSuccess && firstError) throw firstError;
@@ -1686,56 +1653,51 @@
       var row = tableRecords[i];
       if (row && row.storage_path) byPath.set(row.storage_path, row);
     }
-
     var merged = [];
     for (var j = 0; j < (storageRecords || []).length; j++) {
       var storage = storageRecords[j];
       if (!storage || !storage.storage_path) continue;
       var table = byPath.get(storage.storage_path);
       merged.push({
-        id: (table && table.id) || storage.id || 'storage:' + storage.storage_path,
-        name: (table && table.name) || storage.name || fileNameFromStoragePath(storage.storage_path),
-        mime: (table && table.mime) || storage.mime || 'audio/*',
-        size: typeof (table && table.size) === 'number' ? table.size : storage.size || 0,
+        id:           (table && table.id)   || storage.id || 'storage:' + storage.storage_path,
+        name:         (table && table.name) || storage.name || fileNameFromStoragePath(storage.storage_path),
+        mime:         (table && table.mime) || storage.mime || 'audio/*',
+        size:         typeof (table && table.size) === 'number' ? table.size : storage.size || 0,
         storage_path: storage.storage_path,
-        added_at: (table && table.added_at) || storage.added_at || null,
+        added_at:     (table && table.added_at) || storage.added_at || null,
       });
     }
-
-    merged.sort(function (a, b) {
-      var ta = Date.parse(a.added_at || '');
-      var tb = Date.parse(b.added_at || '');
+    merged.sort((a, b) => {
+      var ta = Date.parse(a.added_at || ''), tb = Date.parse(b.added_at || '');
       if (!Number.isFinite(ta)) ta = 0;
       if (!Number.isFinite(tb)) tb = 0;
       return tb - ta;
     });
-
     return merged;
   }
 
   function formatSizeFromBytes(bytes) {
     if (typeof bytes !== 'number' || Number.isNaN(bytes) || bytes < 0) return '--';
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    if (bytes < 1024)            return bytes + ' B';
+    if (bytes < 1024 * 1024)     return (bytes / 1024).toFixed(1) + ' KB';
     if (bytes < 1024 * 1024 * 1024) return (bytes / 1024 / 1024).toFixed(2) + ' MB';
     return (bytes / 1024 / 1024 / 1024).toFixed(2) + ' GB';
   }
 
   function recordToSongEntry(record) {
     return {
-      type: 'audio',
-      name: record.name,
-      songId: record.id || 'storage:' + record.storage_path,
-      songPath: record.storage_path,
+      type:      'audio',
+      name:      record.name,
+      songId:    record.id || 'storage:' + record.storage_path,
+      songPath:  record.storage_path,
       sizeBytes: record.size,
-      fakeExt: 'Audio file',
+      fakeExt:   'Audio file',
     };
   }
 
   async function readAllSongRecords() {
     var client = getSupabaseClient();
-    var result = await client
-      .from(SUPABASE_SONG_TABLE)
+    var result = await client.from(SUPABASE_SONG_TABLE)
       .select('id,name,mime,size,storage_path,added_at')
       .order('added_at', { ascending: false });
     if (result.error) throw result.error;
@@ -1743,13 +1705,9 @@
   }
 
   async function saveSongRecord(record, file) {
-    var client = getSupabaseClient();
-    var uploadRes = await client.storage
-      .from(SUPABASE_SONG_BUCKET)
-      .upload(record.storage_path, file, {
-        upsert: false,
-        contentType: record.mime || 'audio/*',
-      });
+    var client    = getSupabaseClient();
+    var uploadRes = await client.storage.from(SUPABASE_SONG_BUCKET)
+      .upload(record.storage_path, file, { upsert: false, contentType: record.mime || 'audio/*' });
     if (uploadRes.error) throw uploadRes.error;
 
     var insertRes = await client.from(SUPABASE_SONG_TABLE).insert(record);
@@ -1760,51 +1718,34 @@
   }
 
   async function deleteSongRecord(entry) {
-    if (!entry || !entry.songPath) {
-      throw new Error('No song selected.');
-    }
-    var client = getSupabaseClient();
+    if (!entry || !entry.songPath) throw new Error('No song selected.');
+    var client           = getSupabaseClient();
     var rowCleanupFailed = false;
 
-    if (entry.songPath) {
-      var removeFileRes = await client.storage.from(SUPABASE_SONG_BUCKET).remove([entry.songPath]);
-      if (removeFileRes.error && String(removeFileRes.error.message || '').toLowerCase().indexOf('not found') === -1) {
-        var removeMessage = String(removeFileRes.error.message || '');
-        if (/row-level security|permission denied|not allowed|policy/i.test(removeMessage)) {
-          throw new Error('Supabase denied delete in storage bucket "' + SUPABASE_SONG_BUCKET + '". Check storage delete policy.');
-        }
-        throw removeFileRes.error;
-      }
+    var removeFileRes = await client.storage.from(SUPABASE_SONG_BUCKET).remove([entry.songPath]);
+    if (removeFileRes.error && String(removeFileRes.error.message || '').toLowerCase().indexOf('not found') === -1) {
+      var msg = String(removeFileRes.error.message || '');
+      if (/row-level security|permission denied|not allowed|policy/i.test(msg))
+        throw new Error('Supabase denied delete in storage bucket "' + SUPABASE_SONG_BUCKET + '". Check storage delete policy.');
+      throw removeFileRes.error;
     }
 
     if (entry.songId && String(entry.songId).indexOf('storage:') !== 0) {
       var deleteRowRes = await client.from(SUPABASE_SONG_TABLE).delete().eq('id', entry.songId);
-      if (deleteRowRes.error) {
-        rowCleanupFailed = true;
-        console.warn('Storage file deleted, but songs row cleanup failed:', deleteRowRes.error);
-      }
+      if (deleteRowRes.error) { rowCleanupFailed = true; console.warn('Storage file deleted, but songs row cleanup failed:', deleteRowRes.error); }
     } else {
       var cleanupByPathRes = await client.from(SUPABASE_SONG_TABLE).delete().eq('storage_path', entry.songPath);
-      if (cleanupByPathRes.error) {
-        rowCleanupFailed = true;
-        console.warn('Storage file deleted, but songs row cleanup by path failed:', cleanupByPathRes.error);
-      }
+      if (cleanupByPathRes.error) { rowCleanupFailed = true; console.warn('Storage file deleted, but songs row cleanup by path failed:', cleanupByPathRes.error); }
     }
-
-    return {
-      rowCleanupFailed: rowCleanupFailed,
-    };
+    return { rowCleanupFailed };
   }
 
   async function getSongStreamUrl(songPath) {
     var client = getSupabaseClient();
-    var result = await client.storage
-      .from(SUPABASE_SONG_BUCKET)
+    var result = await client.storage.from(SUPABASE_SONG_BUCKET)
       .createSignedUrl(songPath, SUPABASE_SIGNED_URL_TTL_SECONDS);
     if (result.error) throw result.error;
-    if (!result.data || !result.data.signedUrl) {
-      throw new Error('Could not build a song URL from Supabase.');
-    }
+    if (!result.data || !result.data.signedUrl) throw new Error('Could not build a song URL from Supabase.');
     return result.data.signedUrl;
   }
 
@@ -1815,46 +1756,17 @@
   }
 
   async function loadSongsFromArchive() {
-    if (!supabaseClient) {
-      NODES.songs.entries = [];
-      return false;
-    }
+    if (!supabaseClient) { NODES.songs.entries = []; return false; }
     try {
-      var tableRecords = [];
-      var storageRecords = [];
-      var tableError = null;
-      var storageError = null;
-
-      try {
-        tableRecords = await readAllSongRecords();
-      } catch (e) {
-        tableError = e;
-      }
-
-      try {
-        storageRecords = await readAllSongStorageRecords();
-      } catch (e) {
-        storageError = e;
-      }
-
-      if (storageError && tableError) {
-        throw storageError;
-      }
-
-      var mergedRecords;
-      if (storageError && !tableError) {
-        mergedRecords = tableRecords.slice();
-      } else {
-        mergedRecords = mergeSongSources(tableRecords, storageRecords);
-      }
-      NODES.songs.entries = mergedRecords.map(recordToSongEntry);
-
-      if (tableError) {
-        console.warn('Could not read songs table metadata from Supabase:', tableError);
-      }
-      if (storageError) {
-        console.warn('Could not read songs bucket contents from Supabase:', storageError);
-      }
+      var tableRecords  = [], storageRecords = [];
+      var tableError    = null, storageError = null;
+      try { tableRecords   = await readAllSongRecords();        } catch (e) { tableError   = e; }
+      try { storageRecords = await readAllSongStorageRecords(); } catch (e) { storageError = e; }
+      if (storageError && tableError) throw storageError;
+      var merged = (storageError && !tableError) ? tableRecords.slice() : mergeSongSources(tableRecords, storageRecords);
+      NODES.songs.entries = merged.map(recordToSongEntry);
+      if (tableError)   console.warn('Could not read songs table metadata:', tableError);
+      if (storageError) console.warn('Could not read songs bucket contents:', storageError);
       return true;
     } catch (e) {
       console.warn('Could not load songs from Supabase:', e);
@@ -1865,40 +1777,24 @@
 
   async function importSongs(files) {
     getSupabaseClient();
-    var added = 0;
-    var failed = 0;
-    var skipped = 0;
+    var added = 0, failed = 0, skipped = 0;
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      if (!isAudioFile(file)) {
-        skipped++;
-        continue;
-      }
+      if (!isAudioFile(file)) { skipped++; continue; }
       var songId = createSongId();
       var record = {
-        id: songId,
-        name: file.name,
-        mime: file.type || 'audio/*',
-        size: file.size || 0,
-        added_at: new Date().toISOString(),
+        id:           songId,
+        name:         file.name,
+        mime:         file.type || 'audio/*',
+        size:         file.size || 0,
+        added_at:     new Date().toISOString(),
         storage_path: buildSongStoragePath(songId, file.name),
       };
-      try {
-        await saveSongRecord(record, file);
-        added++;
-      } catch (e) {
-        failed++;
-        console.warn('Could not upload song "' + file.name + '" to Supabase:', e);
-      }
+      try { await saveSongRecord(record, file); added++; }
+      catch (e) { failed++; console.warn('Could not upload song "' + file.name + '":', e); }
     }
-    if (failed && !added) {
-      throw new Error('No songs were uploaded to Supabase.');
-    }
-    return {
-      added: added,
-      failed: failed,
-      skipped: skipped,
-    };
+    if (failed && !added) throw new Error('No songs were uploaded to Supabase.');
+    return { added, failed, skipped };
   }
 
   async function openAudioEntry(entry) {
@@ -1907,11 +1803,11 @@
     try {
       var streamUrl = await getSongStreamUrl(entry.songPath);
       lightboxImg.style.display = 'none';
-      audioTitle.textContent = entry.name || 'Song';
-      audioPlayer.src = streamUrl;
-      audioBox.style.display = 'flex';
+      audioTitle.textContent    = entry.name || 'Song';
+      audioPlayer.src           = streamUrl;
+      audioBox.style.display    = 'flex';
       lightbox.classList.add('open');
-      audioPlayer.play().catch(function () {});
+      audioPlayer.play().catch(() => {});
     } catch (e) {
       console.warn('Could not open song:', e);
       notify('error', messageFromError(e, 'Could not open this song from Supabase.'));
@@ -1924,58 +1820,37 @@
     lightbox.classList.remove('open');
     lightboxImg.src = '';
     lightboxImg.style.display = '';
-    audioBox.style.display = 'none';
-    audioTitle.textContent = '';
+    audioBox.style.display    = 'none';
+    audioTitle.textContent    = '';
     audioPlayer.pause();
     audioPlayer.removeAttribute('src');
     audioPlayer.load();
   }
 
+  // ── Data helpers ───────────────────────────────────────────────────────────
   function getEntries() {
-    const node = NODES[state.nodeId];
+    var node = NODES[state.nodeId];
     if (!node) return [];
-    let list = node.entries.slice();
-    const q = state.searchQuery.trim().toLowerCase();
-    if (q) list = list.filter((e) => e.name.toLowerCase().includes(q));
+    var list = node.entries.slice();
+    var q    = state.searchQuery.trim().toLowerCase();
+    if (q) list = list.filter(e => e.name.toLowerCase().includes(q));
     return list;
   }
 
   function applyThemePreference() {
-    const stored = safeStorage.get(STORAGE_THEME);
-    htmlEl.setAttribute('data-theme', stored === 'system' || !stored ? 'system' : stored);
+    var stored = safeStorage.get(STORAGE_THEME);
+    htmlEl.setAttribute('data-theme', (stored === 'system' || !stored) ? 'system' : stored);
   }
 
-  function updateThemeIcon() {
-    const stored = safeStorage.get(STORAGE_THEME) || 'system';
-    const icon = document.getElementById('iconTheme');
-    const btn = document.getElementById('btnTheme');
-    if (!icon || !btn) return;
-    const labels = {
-      system: 'Appearance: Match system (click to use light)',
-      light: 'Appearance: Light (click to use dark)',
-      dark: 'Appearance: Dark (click to match system)',
-    };
-    btn.title = labels[stored] || labels.system;
-    if (stored === 'dark') {
-      icon.innerHTML = '<path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 6.5 6.5 0 1 0 21 14.5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>';
-    } else if (stored === 'light') {
-      icon.innerHTML = '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19" stroke="currentColor" stroke-width="1.6" fill="none"/>';
-    } else {
-      icon.innerHTML = '<rect x="3" y="4" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M7 8h6M7 12h10" stroke="currentColor" stroke-width="1.6" fill="none"/>';
-    }
-  }
-
+  // ── Sidebar ────────────────────────────────────────────────────────────────
   document.getElementById('sidebarNav').innerHTML = SIDEBAR_HTML.trim();
 
-  function clearSelection() {
-    state.selection = null;
-  }
+  // ── Navigation ─────────────────────────────────────────────────────────────
+  function clearSelection() { state.selection = null; }
 
   function navigateTo(nodeId, pushHistory) {
     if (!NODES[nodeId]) return;
-    if (motionOK && state.nodeId !== nodeId) {
-      state.contentSlide = 'forward';
-    }
+    if (motionOK && state.nodeId !== nodeId) state.contentSlide = 'forward';
     if (pushHistory) {
       state.history = state.history.slice(0, state.historyIndex + 1);
       if (state.history[state.history.length - 1] !== nodeId) {
@@ -1987,52 +1862,38 @@
     clearSelection();
     syncSidebarActive();
     render();
-    if (nodeId === 'songs') {
-      refreshSongsInBackground();
-    }
+    if (nodeId === 'songs') refreshSongsInBackground();
   }
 
   function goBack() {
     if (state.historyIndex <= 0) return;
-    if (motionOK) {
-      state.contentSlide = 'back';
-    }
+    if (motionOK) state.contentSlide = 'back';
     state.historyIndex--;
     state.nodeId = state.history[state.historyIndex];
     clearSelection();
     syncSidebarActive();
     render();
-    if (state.nodeId === 'songs') {
-      refreshSongsInBackground();
-    }
+    if (state.nodeId === 'songs') refreshSongsInBackground();
   }
 
   function goForwardNav() {
     if (state.historyIndex >= state.history.length - 1) return;
-    if (motionOK) {
-      state.contentSlide = 'forward';
-    }
+    if (motionOK) state.contentSlide = 'forward';
     state.historyIndex++;
     state.nodeId = state.history[state.historyIndex];
     clearSelection();
     syncSidebarActive();
     render();
-    if (state.nodeId === 'songs') {
-      refreshSongsInBackground();
-    }
+    if (state.nodeId === 'songs') refreshSongsInBackground();
   }
 
   function syncSidebarActive() {
-    document.querySelectorAll('.nav-item').forEach((btn) => btn.classList.remove('active'));
-    const node = NODES[state.nodeId];
-    if (!node) return;
-    let btn = document.querySelector('.nav-item[data-node="' + state.nodeId + '"]');
-    if (!btn && node.sidebarKey) {
-      btn = document.querySelector('.nav-item[data-sidebar="' + node.sidebarKey + '"]');
-    }
+    document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+    var btn = document.querySelector('.nav-item[data-node="' + state.nodeId + '"]');
     if (btn) btn.classList.add('active');
   }
 
+  // ── Icon builders ──────────────────────────────────────────────────────────
   function folderHTML(variant) {
     if (variant === 'receipts') {
       return '<div class="folder-standard folder-receipts"><span class="tab"></span><span class="body"></span><div class="plane"><svg viewBox="0 0 24 24"><path d="M22 12L12 9V5h-2v4L2 11v2l8 3v4h2v-4l10-3v-3z"/></svg></div></div>';
@@ -2041,38 +1902,39 @@
   }
 
   function audioFileIconHTML(size) {
-    var sizeClass = size === 'small' ? 'audio-file-svg--small' : 'audio-file-svg--large';
+    var cls = size === 'small' ? 'audio-file-svg--small' : 'audio-file-svg--large';
     return (
-      '<svg class="audio-file-svg ' +
-      sizeClass +
-      '" viewBox="0 0 43 56" aria-hidden="true">' +
+      '<svg class="audio-file-svg ' + cls + '" viewBox="0 0 43 56" aria-hidden="true">' +
       '<path class="audio-file-paper" d="M6 2h24l12 12v38a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/>' +
       '<path class="audio-file-fold" d="M30 2v12h12z"/>' +
       '<path class="audio-file-outline" d="M6 2h24l12 12v38a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4z"/>' +
       '<path class="audio-file-outline" d="M30 2v12h12"/>' +
-      '<rect class="audio-file-wave" x="12.4" y="28" width="2.2" height="8" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="12.4" y="28" width="2.2" height="8"  rx="1.1"/>' +
       '<rect class="audio-file-wave" x="16.8" y="24" width="2.2" height="16" rx="1.1"/>' +
       '<rect class="audio-file-wave" x="21.2" y="20" width="2.2" height="24" rx="1.1"/>' +
       '<rect class="audio-file-wave" x="25.6" y="24" width="2.2" height="16" rx="1.1"/>' +
-      '<rect class="audio-file-wave" x="30" y="28" width="2.2" height="8" rx="1.1"/>' +
+      '<rect class="audio-file-wave" x="30"   y="28" width="2.2" height="8"  rx="1.1"/>' +
       '</svg>'
     );
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
   }
 
   function kindFor(entry) {
     if (entry.fakeExt) return entry.fakeExt;
     if (entry.type === 'folder') return 'Folder';
-    if (entry.type === 'audio') return 'Audio file';
+    if (entry.type === 'audio')  return 'Audio file';
     if (/\.jpe?g$/i.test(entry.name)) return 'JPEG image';
-    if (/\.png$/i.test(entry.name)) return 'PNG image';
-    if (/\.pdf$/i.test(entry.name)) return 'PDF document';
+    if (/\.png$/i.test(entry.name))   return 'PNG image';
+    if (/\.pdf$/i.test(entry.name))   return 'PDF document';
     return 'Document';
   }
 
   function fakeSize(name, i) {
-    const base = 4000 + (name.charCodeAt(0) || 0) * 127 + i * 413;
-    if (base < 8000) return (base / 1024).toFixed(1) + ' KB';
-    return (base / 1024 / 1024).toFixed(2) + ' MB';
+    var base = 4000 + (name.charCodeAt(0) || 0) * 127 + i * 413;
+    return base < 8000 ? (base / 1024).toFixed(1) + ' KB' : (base / 1024 / 1024).toFixed(2) + ' MB';
   }
 
   function sizeForEntry(entry, i) {
@@ -2081,74 +1943,54 @@
     return fakeSize(entry.name, i);
   }
 
+  // ── Render ─────────────────────────────────────────────────────────────────
   function renderGrid(entries, doStagger) {
     grid.innerHTML = '';
     entries.forEach((e, i) => {
-      const wrap = document.createElement('div');
-      wrap.className = 'item';
-      wrap.tabIndex = 0;
+      var wrap = document.createElement('div');
+      wrap.className  = 'item';
+      wrap.tabIndex   = 0;
       wrap.dataset.index = String(i);
       if (state.selection === i) wrap.classList.add('selected');
-      if (doStagger) {
-        wrap.classList.add('fx-stagger');
-        wrap.style.setProperty('--stagger', String(i * 40));
-      }
+      if (doStagger) { wrap.classList.add('fx-stagger'); wrap.style.setProperty('--stagger', String(i * 40)); }
+
+      var label = e.tag
+        ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
+        : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
 
       if (e.type === 'folder') {
-        const label = e.tag
-          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
-          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
         wrap.innerHTML = '<div class="folder-wrap">' + folderHTML(e.variant) + '</div>' + label;
       } else if (e.type === 'audio') {
-        const label = e.tag
-          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
-          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
-        wrap.innerHTML =
-          '<div class="item-audio" aria-hidden="true">' +
-          audioFileIconHTML('large') +
-          '</div>' +
-          label;
+        wrap.innerHTML = '<div class="item-audio" aria-hidden="true">' + audioFileIconHTML('large') + '</div>' + label;
       } else {
-        const label = e.tag
-          ? '<div class="label-row"><span class="tag-dot" aria-hidden="true"></span><span class="item-label">' + escapeHtml(e.name) + '</span></div>'
-          : '<span class="item-label">' + escapeHtml(e.name) + '</span>';
         wrap.innerHTML = '<img class="item-thumb" src="' + thumbUrl(e.seed) + '" alt="" width="88" height="72" loading="lazy" />' + label;
       }
 
-      wrap.addEventListener('click', () => selectIndex(i));
-      wrap.addEventListener('dblclick', (ev) => onOpenEntry(entries[i], ev));
+      wrap.addEventListener('click',   ()  => selectIndex(i));
+      wrap.addEventListener('dblclick', ev => onOpenEntry(entries[i], ev));
       grid.appendChild(wrap);
     });
   }
 
-  function escapeHtml(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-  }
-
   function syncSelectionUI() {
     var selected = state.selection;
-    document
-      .querySelectorAll('#grid .item, #listBody tr, #colList .col-row, #galleryStrip .gallery-tile')
-      .forEach(function (el) {
-        var idx = Number(el.dataset.index);
-        el.classList.toggle('selected', selected != null && idx === selected);
+    document.querySelectorAll('#grid .item, #listBody tr, #colList .col-row, #galleryStrip .gallery-tile')
+      .forEach(el => {
+        el.classList.toggle('selected', selected != null && Number(el.dataset.index) === selected);
       });
   }
 
   function updateSelectionPreview() {
     var entries = getEntries();
-    var entry = state.selection != null ? entries[state.selection] : null;
+    var entry   = state.selection != null ? entries[state.selection] : null;
 
     if (state.view === 'column') {
-      if (entry) updateColumnPreview(entry);
-      else colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
+      entry ? updateColumnPreview(entry) : (colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>');
       return;
     }
-
-    if (state.view === 'gallery') {
-      if (!entry || entry.type !== 'image') return;
-      galleryHeroImg.src = thumbUrlLarge(entry.seed);
-      galleryHeroImg.alt = entry.name;
+    if (state.view === 'gallery' && entry && entry.type === 'image') {
+      galleryHeroImg.src  = thumbUrlLarge(entry.seed);
+      galleryHeroImg.alt  = entry.name;
       galleryHeroImg.style.display = '';
       galleryHeroPlaceholder.style.display = 'none';
     }
@@ -2164,15 +2006,9 @@
 
   function onOpenEntry(entry, ev) {
     if (!entry) return;
-    if (entry.type === 'folder') {
-      navigateTo(entry.node, true);
-      return;
-    }
-    if (entry.type === 'audio') {
-      openAudioEntry(entry);
-      return;
-    }
-    if (entry.type === 'image') {
+    if (entry.type === 'folder') { navigateTo(entry.node, true); return; }
+    if (entry.type === 'audio')  { openAudioEntry(entry); return; }
+    if (entry.type === 'image')  {
       audioBox.style.display = 'none';
       audioPlayer.pause();
       audioPlayer.removeAttribute('src');
@@ -2187,117 +2023,87 @@
   function renderList(entries, doStagger) {
     listBody.innerHTML = '';
     entries.forEach((e, i) => {
-      const tr = document.createElement('tr');
+      var tr = document.createElement('tr');
       if (state.selection === i) tr.classList.add('selected');
       tr.dataset.index = String(i);
-      if (doStagger) {
-        tr.classList.add('fx-stagger');
-        tr.style.setProperty('--stagger', String(i * 32));
-      }
+      if (doStagger) { tr.classList.add('fx-stagger'); tr.style.setProperty('--stagger', String(i * 32)); }
 
-      const nameCell = document.createElement('td');
-      const row = document.createElement('div');
+      var nameCell = document.createElement('td');
+      var row      = document.createElement('div');
       row.className = 'list-name-cell';
       if (e.type === 'folder') {
         row.innerHTML = '<span class="list-mini-icon">' + folderHTML(e.variant) + '</span><span>' + escapeHtml(e.name) + '</span>';
       } else if (e.type === 'audio') {
-        row.innerHTML =
-          '<span class="list-mini-icon"><span class="list-audio-icon">' +
-          audioFileIconHTML('small') +
-          '</span></span><span>' +
-          escapeHtml(e.name) +
-          '</span>';
+        row.innerHTML = '<span class="list-mini-icon"><span class="list-audio-icon">' + audioFileIconHTML('small') + '</span></span><span>' + escapeHtml(e.name) + '</span>';
       } else {
         row.innerHTML = '<span class="list-mini-icon"><img src="' + thumbUrl(e.seed) + '" alt="" /></span><span>' + escapeHtml(e.name) + '</span>';
       }
       nameCell.appendChild(row);
 
-      const kindCell = document.createElement('td');
-      kindCell.textContent = kindFor(e);
-
-      const sizeCell = document.createElement('td');
-      sizeCell.textContent = sizeForEntry(e, i);
+      var kindCell = document.createElement('td'); kindCell.textContent = kindFor(e);
+      var sizeCell = document.createElement('td'); sizeCell.textContent = sizeForEntry(e, i);
 
       tr.appendChild(nameCell);
       tr.appendChild(kindCell);
       tr.appendChild(sizeCell);
-
-      tr.addEventListener('click', () => selectIndex(i));
-      tr.addEventListener('dblclick', (ev) => onOpenEntry(entries[i], ev));
+      tr.addEventListener('click',   ()  => selectIndex(i));
+      tr.addEventListener('dblclick', ev => onOpenEntry(entries[i], ev));
       listBody.appendChild(tr);
     });
   }
 
   function renderColumn(entries, doStagger) {
-    colList.innerHTML = '';
+    colList.innerHTML  = '';
     colPreview.innerHTML = '';
     entries.forEach((e, i) => {
-      const row = document.createElement('div');
-      row.className = 'col-row' + (state.selection === i ? ' selected' : '');
+      var row = document.createElement('div');
+      row.className  = 'col-row' + (state.selection === i ? ' selected' : '');
       row.dataset.index = String(i);
-      row.textContent = e.name;
+      row.textContent   = e.name;
       if (e.type === 'folder') row.style.fontWeight = '600';
-      if (doStagger) {
-        row.classList.add('fx-stagger');
-        row.style.setProperty('--stagger', String(i * 36));
-      }
-      row.addEventListener('click', () => selectIndex(i));
-      row.addEventListener('dblclick', (ev) => onOpenEntry(e, ev));
+      if (doStagger) { row.classList.add('fx-stagger'); row.style.setProperty('--stagger', String(i * 36)); }
+      row.addEventListener('click',   ()  => selectIndex(i));
+      row.addEventListener('dblclick', ev => onOpenEntry(e, ev));
       colList.appendChild(row);
     });
-    if (entries.length && state.selection != null && entries[state.selection]) {
+    if (entries.length && state.selection != null && entries[state.selection])
       updateColumnPreview(entries[state.selection]);
-    } else {
+    else
       colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
-    }
   }
 
   function updateColumnPreview(entry) {
-    if (!entry) {
-      colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>';
-      return;
-    }
-    if (entry.type === 'folder') {
-      colPreview.innerHTML = '<div class="col-preview-placeholder">Folder: ' + escapeHtml(entry.name) + '<br><small>Double-click to open</small></div>';
-      return;
-    }
-    if (entry.type === 'audio') {
-      colPreview.innerHTML = '<div class="col-preview-placeholder">Audio file: ' + escapeHtml(entry.name) + '<br><small>Double-click to play</small></div>';
-      return;
-    }
+    if (!entry)                 { colPreview.innerHTML = '<div class="col-preview-placeholder">Select an item</div>'; return; }
+    if (entry.type === 'folder'){ colPreview.innerHTML = '<div class="col-preview-placeholder">Folder: ' + escapeHtml(entry.name) + '<br><small>Double-click to open</small></div>'; return; }
+    if (entry.type === 'audio') { colPreview.innerHTML = '<div class="col-preview-placeholder">Audio file: ' + escapeHtml(entry.name) + '<br><small>Double-click to play</small></div>'; return; }
     colPreview.innerHTML = '<img class="col-preview-img" src="' + thumbUrlLarge(entry.seed) + '" alt="' + escapeHtml(entry.name) + '" />';
   }
 
   function renderGalleryView(entries, doStagger) {
     galleryStrip.innerHTML = '';
-    if (galleryHero) {
-      galleryHero.classList.toggle('fx-hero-pop', Boolean(doStagger));
-    }
-    const images = entries.map((e, i) => ({ e, i })).filter((x) => x.e.type === 'image');
+    if (galleryHero) galleryHero.classList.toggle('fx-hero-pop', Boolean(doStagger));
+    var images = entries.map((e, i) => ({ e, i })).filter(x => x.e.type === 'image');
     if (!images.length) {
       galleryHeroPlaceholder.style.display = '';
       galleryHeroImg.style.display = 'none';
       galleryHeroPlaceholder.textContent = 'No images in this folder';
       return;
     }
-    let sel = state.selection;
+    var sel = state.selection;
     if (sel == null || !entries[sel] || entries[sel].type !== 'image') {
       sel = images[0].i;
       state.selection = sel;
     }
-    const pick = entries[sel];
-    galleryHeroImg.src = thumbUrlLarge(pick.seed);
-    galleryHeroImg.alt = pick.name;
+    var pick = entries[sel];
+    galleryHeroImg.src   = thumbUrlLarge(pick.seed);
+    galleryHeroImg.alt   = pick.name;
     galleryHeroImg.style.display = '';
     galleryHeroPlaceholder.style.display = 'none';
     images.forEach(({ e, i }) => {
-      const tile = document.createElement('div');
-      tile.className = 'gallery-tile' + (state.selection === i ? ' selected' : '');
-      tile.dataset.index = String(i);
-      if (doStagger) {
-        tile.classList.add('fx-stagger');
-        tile.style.setProperty('--stagger', String(i * 38));
-      }
+      var tile = document.createElement('div');
+      tile.className    = 'gallery-tile' + (state.selection === i ? ' selected' : '');
+      tile.dataset.index= String(i);
+      if (doStagger) { tile.classList.add('fx-stagger'); tile.style.setProperty('--stagger', String(i * 38)); }
       tile.innerHTML = '<img class="g-thumb" src="' + thumbUrl(e.seed) + '" alt="" /><span>' + escapeHtml(e.name) + '</span>';
       tile.addEventListener('click', () => selectIndex(i));
       galleryStrip.appendChild(tile);
@@ -2305,56 +2111,38 @@
   }
 
   function render() {
-    const entries = getEntries();
-    const node = NODES[state.nodeId];
-    tbTitle.textContent = node ? node.title : '';
-    btnBack.disabled = state.historyIndex <= 0;
-    btnForward.disabled = state.historyIndex >= state.history.length - 1;
+    var entries = getEntries();
+    var node    = NODES[state.nodeId];
+    tbTitle.textContent  = node ? node.title : '';
+    btnBack.disabled     = state.historyIndex <= 0;
+    btnForward.disabled  = state.historyIndex >= state.history.length - 1;
 
-    const doStagger = false;
-
-    const slide = state.contentSlide;
+    var slide = state.contentSlide;
     state.contentSlide = null;
-
     contentEl.className = 'content view-' + state.view;
-    if (slide === 'forward') {
-      void contentEl.offsetWidth;
-      contentEl.classList.add('anim-slide-forward');
-    } else if (slide === 'back') {
-      void contentEl.offsetWidth;
-      contentEl.classList.add('anim-slide-back');
-    }
+    if (slide === 'forward') { void contentEl.offsetWidth; contentEl.classList.add('anim-slide-forward'); }
+    else if (slide === 'back') { void contentEl.offsetWidth; contentEl.classList.add('anim-slide-back'); }
 
-    renderGrid(entries, doStagger);
-    renderList(entries, doStagger);
-    renderColumn(entries, doStagger);
-    if (state.view === 'gallery') {
-      renderGalleryView(entries, doStagger);
-    }
+    renderGrid(entries, false);
+    renderList(entries, false);
+    renderColumn(entries, false);
+    if (state.view === 'gallery') renderGalleryView(entries, false);
     syncSupabaseUiState();
   }
 
+  // ── Songs sync ─────────────────────────────────────────────────────────────
   function refreshSongsInBackground(force) {
-    var forced = Boolean(force);
-    if (songsRefreshInFlight) {
-      songsRefreshPending = true;
-      return;
-    }
-    if (!forced && state.nodeId !== 'songs') return;
+    if (songsRefreshInFlight) { songsRefreshPending = true; return; }
+    if (!force && state.nodeId !== 'songs') return;
     if (!supabaseClient) return;
     songsRefreshInFlight = true;
-    songsRefreshPending = false;
+    songsRefreshPending  = false;
     loadSongsFromArchive()
-      .catch(function () {
-        /* loadSongsFromArchive already handles logging */
-      })
-      .finally(function () {
+      .catch(() => {})
+      .finally(() => {
         songsRefreshInFlight = false;
         if (state.nodeId === 'songs') render();
-        if (songsRefreshPending) {
-          songsRefreshPending = false;
-          refreshSongsInBackground(true);
-        }
+        if (songsRefreshPending) { songsRefreshPending = false; refreshSongsInBackground(true); }
       });
   }
 
@@ -2366,9 +2154,8 @@
 
   function startSongsSyncPolling() {
     if (songsSyncIntervalId) return;
-    songsSyncIntervalId = window.setInterval(function () {
-      if (document.visibilityState === 'hidden') return;
-      if (!supabaseClient) return;
+    songsSyncIntervalId = window.setInterval(() => {
+      if (document.visibilityState === 'hidden' || !supabaseClient) return;
       refreshSongsInBackground(true);
     }, SONGS_SYNC_POLL_MS);
   }
@@ -2376,12 +2163,9 @@
   function teardownSongsRealtimeSync() {
     if (!songsRealtimeChannel) return;
     try {
-      if (supabaseClient && typeof supabaseClient.removeChannel === 'function') {
+      if (supabaseClient && typeof supabaseClient.removeChannel === 'function')
         supabaseClient.removeChannel(songsRealtimeChannel);
-      }
-    } catch (e) {
-      console.warn('Could not remove realtime channel:', e);
-    }
+    } catch (e) { console.warn('Could not remove realtime channel:', e); }
     songsRealtimeChannel = null;
   }
 
@@ -2389,79 +2173,45 @@
     stopSongsSyncPolling();
     teardownSongsRealtimeSync();
     if (!supabaseClient || typeof supabaseClient.channel !== 'function') return;
-
     try {
       var channel = supabaseClient.channel('finder-songs-sync-' + Math.floor(Math.random() * 1000000));
-
-      channel.on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: SUPABASE_SONG_TABLE },
-        function () {
-          refreshSongsInBackground(true);
-        }
-      );
-
-      channel.on(
-        'postgres_changes',
-        { event: '*', schema: 'storage', table: 'objects', filter: 'bucket_id=eq.' + SUPABASE_SONG_BUCKET },
-        function () {
-          refreshSongsInBackground(true);
-        }
-      );
-
-      channel.subscribe(function (status) {
-        if (status === 'SUBSCRIBED') {
-          refreshSongsInBackground(true);
-          return;
-        }
-        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
-          startSongsSyncPolling();
-        }
+      channel.on('postgres_changes', { event: '*', schema: 'public', table: SUPABASE_SONG_TABLE }, () => refreshSongsInBackground(true));
+      channel.on('postgres_changes', { event: '*', schema: 'storage', table: 'objects', filter: 'bucket_id=eq.' + SUPABASE_SONG_BUCKET }, () => refreshSongsInBackground(true));
+      channel.subscribe(status => {
+        if (status === 'SUBSCRIBED') { refreshSongsInBackground(true); return; }
+        if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') startSongsSyncPolling();
       });
-
       songsRealtimeChannel = channel;
-    } catch (e) {
-      console.warn('Could not initialize realtime songs sync:', e);
-    }
-
+    } catch (e) { console.warn('Could not initialize realtime songs sync:', e); }
     startSongsSyncPolling();
   }
 
   function syncSupabaseUiState() {
     if (!btnUploadSongs.classList.contains('is-loading')) {
       btnUploadSongs.disabled = false;
-      if (supabaseClient) {
-        btnUploadSongs.title = 'Upload songs';
-      } else if (supabaseInitError) {
-        btnUploadSongs.title = supabaseInitError + ' Click to retry.';
-      } else {
-        btnUploadSongs.title = 'Configure Supabase URL/key to upload songs';
-      }
+      btnUploadSongs.title    = supabaseClient ? 'Upload songs'
+        : supabaseInitError   ? supabaseInitError + ' Click to retry.'
+        : 'Configure Supabase URL/key to upload songs';
     }
-
     if (btnDeleteSong.classList.contains('is-loading')) return;
-
     var selectedSong = getSelectedSongEntry();
     if (!supabaseClient) {
       btnDeleteSong.disabled = true;
-      btnDeleteSong.title = 'Configure Supabase URL/key to delete songs';
+      btnDeleteSong.title    = 'Configure Supabase URL/key to delete songs';
       return;
     }
     if (!selectedSong) {
       btnDeleteSong.disabled = true;
-      if (state.nodeId !== 'songs') {
-        btnDeleteSong.title = 'Open Songs and select one to delete';
-      } else {
-        btnDeleteSong.title = 'Select a song to delete';
-      }
+      btnDeleteSong.title    = state.nodeId !== 'songs' ? 'Open Songs and select one to delete' : 'Select a song to delete';
       return;
     }
     btnDeleteSong.disabled = false;
-    btnDeleteSong.title = 'Delete "' + selectedSong.name + '"';
+    btnDeleteSong.title    = 'Delete "' + selectedSong.name + '"';
   }
 
-  document.getElementById('sidebarNav').addEventListener('click', (ev) => {
-    const btn = ev.target.closest('.nav-item');
+  // ── Event listeners ────────────────────────────────────────────────────────
+  document.getElementById('sidebarNav').addEventListener('click', ev => {
+    var btn = ev.target.closest('.nav-item');
     if (!btn || !btn.dataset.node) return;
     navigateTo(btn.dataset.node, true);
   });
@@ -2469,15 +2219,50 @@
   btnBack.addEventListener('click', goBack);
   btnForward.addEventListener('click', goForwardNav);
 
+  $('#btnClose').addEventListener('click', () => finder.classList.add('is-hidden'));
+
+  // Mobile menu functionality
+  function toggleMobileMenu() {
+    const isOpen = sidebar.classList.contains('open');
+    if (isOpen) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  }
+
+  function openMobileMenu() {
+    sidebar.classList.add('open');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+  sidebarOverlay.addEventListener('click', closeMobileMenu);
+
+  // Close mobile menu when clicking on nav items
+  document.getElementById('sidebarNav').addEventListener('click', ev => {
+    var btn = ev.target.closest('.nav-item');
+    if (btn && btn.dataset.node) {
+      closeMobileMenu();
+    }
+  });
+
+  document.body.addEventListener('click', e => {
+    if (!finder.classList.contains('is-hidden')) return;
+    if (!finder.contains(e.target)) finder.classList.remove('is-hidden');
+  });
+
   btnUploadSongs.addEventListener('click', async () => {
     if (!supabaseClient && !initSupabaseClient()) {
       syncSupabaseUiState();
-      notify(
-        'error',
-        (supabaseInitError || 'Unknown initialization error.') +
-          ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.',
-        6200
-      );
+      notify('error', (supabaseInitError || 'Unknown initialization error.') + ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.', 6200);
       return;
     }
     if (!requireActionPassword('upload songs')) return;
@@ -2488,22 +2273,11 @@
   btnDeleteSong.addEventListener('click', async () => {
     if (!supabaseClient && !initSupabaseClient()) {
       syncSupabaseUiState();
-      notify(
-        'error',
-        (supabaseInitError || 'Unknown initialization error.') +
-          ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.',
-        6200
-      );
+      notify('error', (supabaseInitError || 'Unknown initialization error.') + ' Check your SUPABASE_URL / SUPABASE_ANON_KEY and internet access.', 6200);
       return;
     }
-
     var selectedSong = getSelectedSongEntry();
-    if (!selectedSong) {
-      notify('info', 'Select a song in Songs before deleting.');
-      syncSupabaseUiState();
-      return;
-    }
-
+    if (!selectedSong) { notify('info', 'Select a song in Songs before deleting.'); syncSupabaseUiState(); return; }
     if (!requireActionPassword('delete this song')) return;
 
     setDeleteButtonLoading(true);
@@ -2512,31 +2286,17 @@
       var deleteResult = await deleteSongRecord(selectedSong);
       removeSongFromSongsNode(selectedSong.songId);
       clearSelection();
-      if (lightbox.classList.contains('open')) {
-        closeLightbox();
-      }
-      if (state.nodeId !== 'songs') {
-        navigateTo('songs', true);
-      } else {
-        render();
-      }
+      if (lightbox.classList.contains('open')) closeLightbox();
+      if (state.nodeId !== 'songs') navigateTo('songs', true);
+      else render();
       notify('success', 'Deleted "' + selectedSong.name + '".');
 
       var refreshed = await loadSongsFromArchive();
       removeSongFromSongsNode(selectedSong.songId);
-      if (state.nodeId === 'songs') {
-        render();
-      }
-      if (!refreshed) {
-        notify('warning', 'Song was deleted, but list refresh failed. Try reloading.', 5600);
-      }
-      if (deleteResult && deleteResult.rowCleanupFailed) {
-        notify(
-          'warning',
-          'Song file was deleted, but table metadata cleanup failed. You may need to clean stale rows in Supabase.',
-          6200
-        );
-      }
+      if (state.nodeId === 'songs') render();
+      if (!refreshed) notify('warning', 'Song was deleted, but list refresh failed. Try reloading.', 5600);
+      if (deleteResult && deleteResult.rowCleanupFailed)
+        notify('warning', 'Song file was deleted, but table metadata cleanup failed. You may need to clean stale rows in Supabase.', 6200);
     } catch (e) {
       console.warn('Song delete failed:', e);
       notify('error', messageFromError(e, 'Could not delete song from Supabase.'), 6200);
@@ -2548,52 +2308,27 @@
   });
 
   songUploadInput.addEventListener('change', async () => {
-    const files = Array.from(songUploadInput.files || []);
+    var files = Array.from(songUploadInput.files || []);
     if (!files.length) return;
     setUploadButtonLoading(true);
     setAppLoading(true, files.length > 1 ? 'Uploading songs to Supabase...' : 'Uploading song to Supabase...');
     try {
-      const summary = await importSongs(files);
-      const refreshed = await loadSongsFromArchive();
+      var summary   = await importSongs(files);
+      var refreshed = await loadSongsFromArchive();
       clearSelection();
-      if (state.nodeId !== 'songs') {
-        navigateTo('songs', true);
-      } else {
-        render();
-      }
+      if (state.nodeId !== 'songs') navigateTo('songs', true);
+      else render();
       if (!summary.added) {
         notify('info', 'No supported audio files were selected.');
       } else if (summary.failed) {
-        notify(
-          'warning',
-          summary.added +
-            ' song(s) uploaded, ' +
-            summary.failed +
-            ' failed.' +
-            (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : ''),
-          5200
-        );
+        notify('warning', summary.added + ' song(s) uploaded, ' + summary.failed + ' failed.' + (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : ''), 5200);
       } else {
-        notify(
-          'success',
-          summary.added +
-            ' song(s) uploaded successfully.' +
-            (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : '')
-        );
+        notify('success', summary.added + ' song(s) uploaded successfully.' + (summary.skipped ? ' Unsupported skipped: ' + summary.skipped + '.' : ''));
       }
-      if (!refreshed && supabaseClient) {
-        notify('warning', 'Songs were uploaded, but list refresh failed. Try reloading.', 5200);
-      }
+      if (!refreshed && supabaseClient) notify('warning', 'Songs were uploaded, but list refresh failed. Try reloading.', 5200);
     } catch (e) {
       console.warn('Song import failed:', e);
-      notify(
-        'error',
-        messageFromError(
-          e,
-          'Could not import songs to Supabase. Check your URL/key, table, bucket, and permissions.'
-        ),
-        6200
-      );
+      notify('error', messageFromError(e, 'Could not import songs to Supabase. Check your URL/key, table, bucket, and permissions.'), 6200);
     } finally {
       songUploadInput.value = '';
       setUploadButtonLoading(false);
@@ -2607,13 +2342,8 @@
     $('#btnSearch').classList.toggle('is-pressed', state.searchOpen);
     $('#btnSearch').setAttribute('aria-pressed', state.searchOpen ? 'true' : 'false');
     searchField.classList.toggle('visible', state.searchOpen);
-    if (state.searchOpen) {
-      searchField.focus();
-    } else {
-      state.searchQuery = '';
-      searchField.value = '';
-      render();
-    }
+    if (state.searchOpen) searchField.focus();
+    else { state.searchQuery = ''; searchField.value = ''; render(); }
   });
 
   searchField.addEventListener('input', () => {
@@ -2622,90 +2352,56 @@
     render();
   });
 
-
   lightbox.addEventListener('click', closeLightbox);
-  audioBox.addEventListener('click', (ev) => ev.stopPropagation());
+  audioBox.addEventListener('click', ev => ev.stopPropagation());
 
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      if (lightbox.classList.contains('open')) {
-        closeLightbox();
-        return;
-      }
-      if (state.searchOpen) {
-        $('#btnSearch').click();
-      }
+      if (lightbox.classList.contains('open')) { closeLightbox(); return; }
+      if (state.searchOpen) $('#btnSearch').click();
     }
   });
 
-
-  document.body.addEventListener('click', (e) => {
-    if (!finder.classList.contains('is-hidden')) return;
-    if (!finder.contains(e.target)) {
-      finder.classList.remove('is-hidden');
-    }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshSongsInBackground(true);
   });
 
-  document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'visible') {
-      refreshSongsInBackground(true);
-    }
-  });
+  window.addEventListener('focus', () => refreshSongsInBackground(true));
 
-  window.addEventListener('focus', function () {
-    refreshSongsInBackground(true);
-  });
-
-  window.addEventListener('beforeunload', function () {
+  window.addEventListener('beforeunload', () => {
     stopSongsSyncPolling();
     teardownSongsRealtimeSync();
   });
 
   (function watchSystemTheme() {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = function () {
-      if ((safeStorage.get(STORAGE_THEME) || 'system') === 'system') {
-        applyThemePreference();
-      }
-    };
-    if (mq.addEventListener) {
-      mq.addEventListener('change', onChange);
-    } else if (mq.addListener) {
-      mq.addListener(onChange);
-    }
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onChange = () => { if ((safeStorage.get(STORAGE_THEME) || 'system') === 'system') applyThemePreference(); };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
   })();
 
-  if (!safeStorage.get(STORAGE_THEME)) {
-    safeStorage.set(STORAGE_THEME, 'system');
-  }
+  if (!safeStorage.get(STORAGE_THEME)) safeStorage.set(STORAGE_THEME, 'system');
 
+  // ── Boot ───────────────────────────────────────────────────────────────────
   async function initSongArchive() {
     setAppLoading(true, 'Loading songs...');
     try {
       initSupabaseClient();
       if (supabaseClient) setupSongsRealtimeSync();
-      else {
-        stopSongsSyncPolling();
-        teardownSongsRealtimeSync();
-      }
+      else { stopSongsSyncPolling(); teardownSongsRealtimeSync(); }
       syncSupabaseUiState();
       var loaded = await loadSongsFromArchive();
       render();
-      if (!supabaseClient) {
-        notify('warning', 'Supabase is not configured. Add URL and anon key to enable uploads.', 5400);
-      } else if (!loaded) {
-        notify('error', 'Could not load songs from Supabase right now.', 5600);
-      }
+      if (!supabaseClient) notify('warning', 'Supabase is not configured. Add URL and anon key to enable uploads.', 5400);
+      else if (!loaded)    notify('error', 'Could not load songs from Supabase right now.', 5600);
     } finally {
       setAppLoading(false);
     }
   }
 
   applyThemePreference();
-  updateThemeIcon();
   initSongArchive();
 })();
-
   </script>
 </body>
 </html>

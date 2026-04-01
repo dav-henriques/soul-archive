@@ -1285,22 +1285,22 @@
   // ── Nodes ──────────────────────────────────────────────────────────────────
   const NODES = {
     songs: {
-      title: 'songs',
+      title: 'Songs',
       parent: null,
-      sidebarKey: 'songs',
+      sidebarKey: 'Songs',
       entries: [],
     },
     images: {
-      title: 'images',
+      title: 'Images',
       parent: null,
-      sidebarKey: 'images',
+      sidebarKey: 'Images',
       entries: [
-        { type: 'folder', name: 'logos', node: 'folder-desktop', variant: 'standard' },
+        { type: 'folder', name: 'Logos', node: 'folder-desktop', variant: 'standard' },
         
       ],
     },
     'folder-desktop': {
-      title: 'logos',
+      title: 'Logos',
       parent: 'images',
       sidebarKey: null,
       entries: [
@@ -1322,7 +1322,7 @@
 
   const SIDEBAR_HTML = `
     <div class="nav-section">
-      <h2>archive</h2>
+      <h2>Locations</h2>
       <button type="button" class="nav-item active" data-node="songs">
         <svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 0 1 0-8h.5a5 5 0 0 1 9.7 1.2A3.5 3.5 0 0 1 20 15.5 3.5 3.5 0 0 1 16.5 19H7z"/></svg>
         Songs
